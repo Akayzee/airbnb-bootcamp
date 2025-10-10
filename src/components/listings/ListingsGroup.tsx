@@ -1,8 +1,9 @@
 import { Listing } from "@/lib/types";
-import Link from "next/link";
+import Image from "next/image";
 import React from "react";
-import { IoIosArrowForward } from "react-icons/io";
 import ListingCard from "./ListingCard";
+import { IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
 
 type ListingGroupProps = {
   location: string;
@@ -13,7 +14,7 @@ type ListingGroupProps = {
 const ListingsGroup = ({ location, header, listings }: ListingGroupProps) => {
   return (
     <div className="mb-10">
-      <div className="flex items-center mb-5">
+      <div className="flex items-center mb-5 ">
         <Link
           href={`/listings?location=${location}`}
           className="flex items-center"
@@ -25,8 +26,9 @@ const ListingsGroup = ({ location, header, listings }: ListingGroupProps) => {
           />
         </Link>
       </div>
-      <div className="grid grid-cols-5 gap-3">
-        {listings.slice(0, 5).map((listing) => (
+
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6  gap-5">
+        {listings.map((listing) => (
           <ListingCard key={listing.id} listing={listing} location={location} />
         ))}
       </div>

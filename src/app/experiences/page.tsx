@@ -2,8 +2,8 @@ import React from "react";
 
 type Props = {};
 
-const ExperiencesPage = (props: Props) => {
-  return <div>ExperiencesPage</div>;
+const ExperiencePage = (props: Props) => {
+  return <div>ExperiencePage</div>;
 };
 
-export default ExperiencesPage;
+export default ExperiencePage;

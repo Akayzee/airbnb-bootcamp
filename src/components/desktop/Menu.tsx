@@ -1,5 +1,5 @@
 import React from "react";
-import { BiGlobe, BiMenu } from "react-icons/bi";
+import { BiGlobe, BiMenu, BiQuestionMark } from "react-icons/bi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { BsQuestionCircle } from "react-icons/bs";
 
@@ -7,8 +7,8 @@ type Props = {};
 
 const Menu = (props: Props) => {
   return (
-    <div className="flex items-center text-gray-600 gap-3">
-      <div className="text-sm font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
+    <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 ">
+      <div className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
         Become a host
       </div>
       <BiGlobe
@@ -27,7 +27,8 @@ const Menu = (props: Props) => {
           <div className="flex flex-col">
             <div className="flex items-center hover:bg-gray-200 rounded-lg p-2 gap-2 hover:cursor-pointer">
               <BsQuestionCircle size={20} className="mr-2" />
-              <p className="text-sm">Help Center</p>
+
+              <p className="text-sm ">Help Center</p>
             </div>
             <hr className="my-2" />
             <div className="hover:bg-gray-200 p-2 gap-2 rounded-lg hover:cursor-pointer">

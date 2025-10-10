@@ -11,6 +11,6 @@ export type Listing = {
   imageUrl: string;
   hostType: string;
   listingType: string;
-  guestFavorite: boolean;
+  guestFavorite?: boolean;
   reviews: Review[];
 };

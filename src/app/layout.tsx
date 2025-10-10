@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/desktop/Navbar";
 import Container from "@/components/Container";
+import NextTopLoader from "nextjs-toploader";
+import Footer from "@/components/Footer/Footer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +14,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -26,11 +34,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-      >
-        <Navbar />
-        <Container>{children}</Container>
+      <body className={` ${nunito.variable} antialiased `}>
+        <NextTopLoader color="#FF5A5F" height={3} showSpinner={false} />
+        <Toaster />
+        <div className="hidden md:block">
+          <Navbar />
+        </div>
+        <div className="md:mt-60">
+          <Container>
+            <div className="min-h-dvh">{children}</div>
+          </Container>
+        </div>
+        <Footer />
       </body>
     </html>
   );

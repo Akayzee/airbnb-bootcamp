@@ -1,22 +1,4 @@
-export const HeaderMenu = [
-  {
-    label: "Homes",
-    imageUrl: "/images/home.avif",
-    path: "/",
-  },
-  {
-    label: "Experiences",
-    imageUrl: "/images/parachute.avif",
-    path: "/experiences",
-  },
-  {
-    label: "Services",
-    imageUrl: "/images/bell.avif",
-    path: "/services",
-  },
-];
-
-export const MIDDOT = "\u00B7";
+import { Average } from "next/font/google";
 
 export const HomePageListingsGroupInfo = [
   {
@@ -474,6 +456,154 @@ export const HomePageListingsGroupInfo = [
           { id: 3, comment: "Would stay again.", rating: 5 },
         ],
         guestFavorite: false,
+      },
+    ],
+  },
+];
+
+export const MIDDOT = "\u00B7";
+
+export const FooterMenuDetails = [
+  {
+    menuName: "Support",
+    links: [
+      {
+        label: "Help Center",
+        path: "/help",
+      },
+      {
+        label: "Safety Information",
+        path: "/help/safety",
+      },
+      {
+        label: "AirCover",
+        path: "/aircover",
+      },
+      {
+        label: "Disability Support",
+        path: "/help/disabilities",
+      },
+      {
+        label: "Cancellation Options",
+        path: "/help/cancellation",
+      },
+      {
+        label: "Report neighborhood concern",
+        path: "/neighbors",
+      },
+    ],
+  },
+  {
+    menuName: "Hosting",
+    links: [
+      {
+        label: "Airbnb your home",
+        path: "/host/homes",
+      },
+      {
+        label: "Airbnb your Experience",
+        path: "/host/experiences",
+      },
+      {
+        label: "Airbnb your service",
+        path: "/host/services",
+      },
+      {
+        label: "AirCover for Hosts",
+        path: "/host/aircover",
+      },
+      {
+        label: "Find a co-host",
+        path: "/host/co-host",
+      },
+    ],
+  },
+  {
+    menuName: "Airbnb",
+    links: [
+      {
+        label: "Newsroom",
+        path: "/newsroom",
+      },
+      {
+        label: "Careers",
+        path: "/careers",
+      },
+      {
+        label: "Investors",
+        path: "/investors",
+      },
+      {
+        label: "Gift cards",
+        path: "/gift-cards",
+      },
+    ],
+  },
+];
+
+export const Tabs = [
+  {
+    name: "Travel tips & inspiration",
+    links: [
+      {
+        label: "Family travel hub",
+        description: "Find family-friendly stays, experiences, and more",
+        path: "/family-travel",
+      },
+      {
+        label: "Family budget travel",
+        description: "Get there for less",
+        path: "/family-budget",
+      },
+      {
+        label: "Any budget",
+        description: "Find the perfect trip within your budget",
+        path: "/any-budget",
+      },
+      {
+        label: "Outdoor adventures",
+        description: "Explore the great outdoors",
+        path: "/outdoor-adventures",
+      },
+      {
+        label: "Bucket list national parks",
+        description: "Discover the beauty of national parks",
+        path: "/bucket-list-national-parks",
+      },
+    ],
+  },
+  {
+    name: "Airbnb-friendly apartments",
+    links: [
+      {
+        label: "Stavanger",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/stavanger",
+      },
+      {
+        label: "Oslo",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/oslo",
+      },
+      {
+        label: "Bergen",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/bergen",
+      },
+      {
+        label: "Trondheim",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/trondheim",
+      },
+      {
+        label: "Tromsø",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/tromso",
+      },
+      {
+        label: "Lofoten",
+        description: "Norway",
+        path: "/airbnb-friendly-apartments/lofoten",
       },
     ],
   },

@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HeaderMenu } from "@/lib/constants";
+import Link from "next/link";
 
 type Props = {};
 
@@ -13,44 +12,17 @@ const HeaderLinks = (props: Props) => {
   return (
     <div>
       <div className="flex gap-3">
-        {HeaderMenu.map((menu) => (
-          <div
-            key={menu.label}
-            className={
-              pathname === menu.path
-                ? "border-b-3 border-gray-900 text-gray-900"
-                : "text-gray-600"
-            }
-          >
-            <Link href={menu.path} className="flex items-center">
-              <Image
-                src={menu.imageUrl}
-                alt={menu.label}
-                width={70}
-                height={70}
-                className={
-                  pathname !== menu.path
-                    ? "hover:scale-120 transition-all duration-150 cursor-pointer"
-                    : ""
-                }
-              />
-              <p className="text-md hover:text-gray-900">{menu.label}</p>
-            </Link>
-          </div>
-        ))}
-        {/* Long version below
-        
         <div
-          className={
+          className={` ${
             pathname === "/"
-              ? "border-b-3 border-gray-900 text-gray-900"
+              ? "border-b-3 border-gray-900 text-gray-900 "
               : "text-gray-600"
-          }
+          }`}
         >
           <Link href="/" className="flex items-center">
             <Image
               src="/images/home.avif"
-              alt="homes"
+              alt="Homes"
               width={70}
               height={70}
               className={
@@ -62,18 +34,17 @@ const HeaderLinks = (props: Props) => {
             <p className="text-md hover:text-gray-900">Homes</p>
           </Link>
         </div>
-
         <div
-          className={
+          className={` ${
             pathname === "/experiences"
-              ? "border-b-3 border-gray-900 text-gray-900"
+              ? "border-b-2 border-gray-900 text-gray-900 "
               : "text-gray-600"
-          }
+          }`}
         >
           <Link href="/experiences" className="flex items-center">
             <Image
               src="/images/parachute.avif"
-              alt="homes"
+              alt="Experiences"
               width={70}
               height={70}
               className={
@@ -85,18 +56,17 @@ const HeaderLinks = (props: Props) => {
             <p className="text-md hover:text-gray-900">Experiences</p>
           </Link>
         </div>
-
         <div
-          className={
+          className={`${
             pathname === "/services"
-              ? "border-b-3 border-gray-900 text-gray-900"
+              ? "border-b-2 border-gray-900 text-gray-900 "
               : "text-gray-600"
-          }
+          }`}
         >
           <Link href="/services" className="flex items-center">
             <Image
               src="/images/bell.avif"
-              alt="services"
+              alt="Services"
               width={70}
               height={70}
               className={
@@ -107,7 +77,7 @@ const HeaderLinks = (props: Props) => {
             />
             <p className="text-md hover:text-gray-900">Services</p>
           </Link>
-        </div> */}
+        </div>
       </div>
     </div>
   );

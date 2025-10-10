@@ -1,31 +1,34 @@
 import { Listing } from "@/lib/types";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaStar } from "react-icons/fa";
 import { averageRating } from "@/lib/helpers";
 import { MIDDOT } from "@/lib/constants";
+import { FaStar } from "react-icons/fa";
 
-type ListingProps = {
+type ListingCardProps = {
   listing: Listing;
-  location: string;
+  location?: string;
 };
 
-const ListingCard = ({ listing, location }: ListingProps) => {
+const ListingCard = ({ listing, location }: ListingCardProps) => {
   return (
-    <div>
+    <div className="flex flex-col gap-1 ">
       <Link href={`/listings/${listing.id}`}>
-        <div className="flex flex-col gap-1">
-          <div className="relative w-full h-48 rounded-2xl overflow-hidden">
-            <Image
-              src={listing.imageUrl}
-              alt={listing.title}
-              layout="fill"
-              objectFit="cover"
-              //   loading="lazy"
-            />
+        <div className="flex flex-col gap-3">
+          <div className="relative w-full rounded-2xl overflow-hidden">
+            <div className="h-72 w-72 md:h-48 md:w-48">
+              <Image
+                src={listing.imageUrl}
+                alt={listing.title}
+                fill={true}
+                objectFit="cover"
+
+                //   loading="lazy"
+              />
+            </div>
 
             {listing.guestFavorite && (
               <Badge

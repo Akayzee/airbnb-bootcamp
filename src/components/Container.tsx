@@ -1,10 +1,10 @@
 import React from "react";
 
-type ContainerProps = {
+type Props = {
   children: React.ReactNode;
 };
 
-const Container = ({ children }: ContainerProps) => {
+const Container = ({ children }: Props) => {
   return <div className="max-w-7xl mx-auto p-6">{children}</div>;
 };
 

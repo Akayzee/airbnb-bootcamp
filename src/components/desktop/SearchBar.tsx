@@ -1,39 +1,45 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Input } from "../ui/input";
+import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
+import { CalendarIcon, SearchIcon } from "lucide-react";
 import { format } from "date-fns";
-import { SearchIcon } from "lucide-react";
+import GuestFilter from "./GuestFilter";
+import useGuestFilterStore from "@/hooks/use-guest-filter-store";
+import { IoMdClose } from "react-icons/io";
 
 type Props = {};
 
 const SearchBar = (props: Props) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [checkInOpen, setCheckInOpen] = useState(false);
-  const [checkOutOpen, setCheckOutOpen] = useState(false);
   const [checkInDate, setCheckInDate] = useState<Date | undefined>();
   const [checkOutDate, setCheckOutDate] = useState<Date | undefined>();
+  const [checkInOpen, setCheckInOpen] = useState(false);
+  const [checkOutOpen, setCheckOutOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const { adultsCount, childrenCount, infantsCount, petsCount, reset } =
+    useGuestFilterStore();
+
+  const isGuestNotEmpty =
+    adultsCount > 0 || childrenCount > 0 || infantsCount > 0 || petsCount > 0;
 
   return (
-    <div className="flex justify-center py-4">
-      <div className="flex rounded-full h-16 md:w-2/3 lg:w-3/4 bg-white shadow-2xl border-1 border-gray-300">
+    <div className="hidden md:flex justify-center py-4">
+      <div className="flex rounded-full md:w-2/3 lg:w-3/4 h-16 bg-white shadow-2xl border-1 border-gray-300 ">
         <div
           onClick={() => inputRef.current?.focus()}
-          className="flex flex-col justify-center w-1/3 px-6 border-r-1 rounded-l-full  border-gray-300 hover:bg-gray-200 hover:cursor-pointer"
+          className="flex flex-col w-1/3 justify-center px-6 border-r-1 rounded-l-full border-gray-300 hover:bg-gray-200 hover:cursor-pointer"
         >
-          <div className="text-gray-900 text-xs font-semibold">Where</div>
+          <div className="text-gray-900 text-xs  font-semibold">Where</div>
           <Input
             ref={inputRef}
             placeholder="Search destinations"
-            className="placeholder:text-xs placeholder:text-gray-500 h-7 border-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none shadow-none p-0"
+            className="placeholder:text-xs placeholder:text-gray-500 h-7 border-none outline-none focus-visible:ring-0  focus-visible:ring-offset-0 focus-visible:outline-none shadow-none p-0"
           />
         </div>
-        <div
-          onClick={() => setCheckInOpen(true)}
-          className="flex flex-col w-1/5 justify-center px-6 border-r-1 border-gray-300 hover:bg-gray-200 hover:cursor-pointer"
-        >
+        <div className="flex flex-col w-1/5 justify-center px-6 border-r-1  border-gray-300 hover:bg-gray-200 hover:cursor-pointer">
           <div className="text-gray-900 text-xs font-semibold">Check in</div>
           <Popover open={checkInOpen} onOpenChange={setCheckInOpen}>
             <PopoverTrigger asChild>
@@ -94,7 +100,9 @@ const SearchBar = (props: Props) => {
                 }}
                 disabled={(date) => {
                   if (checkInDate) {
-                    return date < new Date() || date <= checkInDate;
+                    return (
+                      date < new Date() || (checkInDate && date <= checkInDate)
+                    );
                   }
 
                   return false;
@@ -103,24 +111,24 @@ const SearchBar = (props: Props) => {
             </PopoverContent>
           </Popover>
         </div>
-        <div
-          onClick={() => setCheckOutOpen(true)}
-          className="flex w-1/3 justify-between items-center pl-6 pr-2 border-gray-300 hover:bg-gray-200 rounded-r-full"
-        >
+        <div className="flex w-1/3 justify-between items-center pl-6 pr-2 border-gray-300 hover:bg-gray-200 rounded-r-full">
           <div>
             <div className="text-gray-900 text-xs font-semibold">Who</div>
-            <Button
-              variant="outline"
-              className="text-xs border-none shadow-none p-0 h-7 text-gray-500  hover:bg-transparent bg-transparent hover:cursor-pointer hover:text-gray-500"
-            >
-              Add guests
-            </Button>
+            <GuestFilter />
           </div>
-
-          <SearchIcon
-            className="text-white bg-[#FF385C] rounded-full p-4 hover:cursor-pointer "
-            size={50}
-          />
+          {isGuestNotEmpty && (
+            <IoMdClose
+              onClick={reset}
+              size={16}
+              className="font-semibold hover:cursor-pointer"
+            />
+          )}
+          <div className="">
+            <SearchIcon
+              className="text-white bg-[#FF385C] rounded-full p-4 hover:cursor-pointer "
+              size={50}
+            />
+          </div>
         </div>
       </div>
     </div>

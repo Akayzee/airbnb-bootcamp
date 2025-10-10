@@ -2,8 +2,8 @@ import React from "react";
 
 type Props = {};
 
-const ServicesPage = (props: Props) => {
-  return <div>ServicesPage</div>;
+const page = (props: Props) => {
+  return <div>page</div>;
 };
 
-export default ServicesPage;
+export default page;
