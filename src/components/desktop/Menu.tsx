@@ -7,8 +7,8 @@ type Props = {};
 
 const Menu = (props: Props) => {
   return (
-    <div className="flex items-center rounded-full text-gray-600 gap-3 ">
-      <div className="text-sm font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
+    <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 ">
+      <div className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
         Become a host
       </div>
       <BiGlobe

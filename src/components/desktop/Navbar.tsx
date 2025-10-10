@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 fixed top-0 left-0 right-0 z-50 w-full shadow-xs ">
       <Container>
         <div className="flex   justify-between items-center ">
           <Logo />

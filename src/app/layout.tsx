@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/desktop/Navbar";
 import Container from "@/components/Container";
 import NextTopLoader from "nextjs-toploader";
+import Footer from "@/components/Footer/Footer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,8 +36,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={` ${nunito.variable} antialiased `}>
         <NextTopLoader color="#FF5A5F" height={3} showSpinner={false} />
-        <Navbar />
-        {children}
+        <Toaster />
+        <div className="hidden md:block">
+          <Navbar />
+        </div>
+        <div className="md:mt-60">
+          <Container>
+            <div className="min-h-dvh">{children}</div>
+          </Container>
+        </div>
+        <Footer />
       </body>
     </html>
   );

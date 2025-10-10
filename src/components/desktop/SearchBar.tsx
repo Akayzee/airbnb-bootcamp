@@ -6,6 +6,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { CalendarIcon, SearchIcon } from "lucide-react";
 import { format } from "date-fns";
+import GuestFilter from "./GuestFilter";
+import useGuestFilterStore from "@/hooks/use-guest-filter-store";
+import { IoMdClose } from "react-icons/io";
 
 type Props = {};
 
@@ -16,8 +19,14 @@ const SearchBar = (props: Props) => {
   const [checkOutOpen, setCheckOutOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { adultsCount, childrenCount, infantsCount, petsCount, reset } =
+    useGuestFilterStore();
+
+  const isGuestNotEmpty =
+    adultsCount > 0 || childrenCount > 0 || infantsCount > 0 || petsCount > 0;
+
   return (
-    <div className="flex justify-center py-4">
+    <div className="hidden md:flex justify-center py-4">
       <div className="flex rounded-full md:w-2/3 lg:w-3/4 h-16 bg-white shadow-2xl border-1 border-gray-300 ">
         <div
           onClick={() => inputRef.current?.focus()}
@@ -105,13 +114,15 @@ const SearchBar = (props: Props) => {
         <div className="flex w-1/3 justify-between items-center pl-6 pr-2 border-gray-300 hover:bg-gray-200 rounded-r-full">
           <div>
             <div className="text-gray-900 text-xs font-semibold">Who</div>
-            <Button
-              variant="outline"
-              className="text-xs border-none shadow-none p-0 h-7 text-gray-500  hover:bg-transparent bg-transparent hover:cursor-pointer hover:text-gray-500"
-            >
-              Add guests
-            </Button>
+            <GuestFilter />
           </div>
+          {isGuestNotEmpty && (
+            <IoMdClose
+              onClick={reset}
+              size={16}
+              className="font-semibold hover:cursor-pointer"
+            />
+          )}
           <div className="">
             <SearchIcon
               className="text-white bg-[#FF385C] rounded-full p-4 hover:cursor-pointer "
