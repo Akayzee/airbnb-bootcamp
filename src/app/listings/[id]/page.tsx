@@ -1,3 +1,4 @@
+import AuthCard from "@/components/auth/AuthCard";
 import React from "react";
 
 type Props = {};

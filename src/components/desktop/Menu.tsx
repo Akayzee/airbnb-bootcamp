@@ -1,11 +1,15 @@
+"use client";
 import React from "react";
 import { BiGlobe, BiMenu, BiQuestionMark } from "react-icons/bi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { BsQuestionCircle } from "react-icons/bs";
+import useAuthCardDialogStore from "@/hooks/use-auth-card-dialog";
 
 type Props = {};
 
 const Menu = (props: Props) => {
+  const { open, isOpen } = useAuthCardDialogStore();
+
   return (
     <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 ">
       <div className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
@@ -51,7 +55,10 @@ const Menu = (props: Props) => {
               </p>
             </div>
             <hr className="my-2" />
-            <p className="text-sm p-2 hover:bg-gray-200 rounded-lg gap-2 hover:cursor-pointer">
+            <p
+              onClick={open}
+              className="text-sm p-2 hover:bg-gray-200 rounded-lg gap-2 hover:cursor-pointer"
+            >
               Log in or sign up
             </p>
           </div>

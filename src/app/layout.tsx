@@ -6,6 +6,7 @@ import Container from "@/components/Container";
 import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/Footer/Footer";
 import { Toaster } from "react-hot-toast";
+import AuthCard from "@/components/auth/AuthCard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className={` ${nunito.variable} antialiased `}>
         <NextTopLoader color="#FF5A5F" height={3} showSpinner={false} />
         <Toaster />
+        <AuthCard />
         <div className="hidden md:block">
           <Navbar />
         </div>
