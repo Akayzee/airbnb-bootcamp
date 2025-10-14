@@ -44,7 +44,7 @@ export default function RootLayout({
         </div>
         <div className="md:mt-60">
           <Container>
-            <div className="min-h-dvh">{children}</div>
+            <div className="">{children}</div>
           </Container>
         </div>
         <Footer />
