@@ -8,19 +8,14 @@ import {
   publicRoutes,
 } from "../routes";
 
-// export default function middleware(req: NextRequest) {
-//   console.log("🔥 Middleware hit:", req.nextUrl.pathname);
-//   return NextResponse.next();
-// }
-
 export default auth((req) => {
   const { nextUrl } = req;
+
   const isLoggedIn = !!req.auth;
 
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isListingRoute = nextUrl.pathname.startsWith(listingsPrefix);
 
   if (isAuthRoute) {
     if (isLoggedIn) {
@@ -33,9 +28,6 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  if (isListingRoute) {
-    return NextResponse.next();
-  }
   if (isPublicRoute) {
     return NextResponse.next();
   }
@@ -53,7 +45,7 @@ export default auth((req) => {
     );
   }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 });
 
 export const config = {

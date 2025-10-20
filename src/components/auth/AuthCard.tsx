@@ -13,6 +13,8 @@ import PhoneForm from "./PhoneForm";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_LOGIN_REDIRECT } from "../../../routes";
+import { login } from "@/actions/login";
+import toast from "react-hot-toast";
 
 type Props = {};
 
@@ -21,6 +23,16 @@ const AuthCard = (props: Props) => {
   const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
 
   const [toggleInput, setToggleInput] = useState(true);
+
+  const handleSignIn = () => {
+    login().then((response) => {
+      if (response.success) {
+        toast.success(`${response.success}`);
+      } else if (response.error) {
+        toast.error(`${response.error}`);
+      }
+    });
+  };
 
   return (
     <>
