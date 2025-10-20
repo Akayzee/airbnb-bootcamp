@@ -26,8 +26,8 @@ const EmailFormSchema = z.object({
 });
 
 const EmailForm = (props: Props) => {
-  const params = useSearchParams();
-  const callbackUrl = params.get("callbackUrl");
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
   const form = useForm<z.infer<typeof EmailFormSchema>>({
     resolver: zodResolver(EmailFormSchema),
     defaultValues: {
@@ -37,7 +37,7 @@ const EmailForm = (props: Props) => {
   const onSubmit = (values: z.infer<typeof EmailFormSchema>) => {
     signIn("resend", {
       email: values.email,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl,
     });
   };
 

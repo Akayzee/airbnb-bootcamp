@@ -1,36 +1,13 @@
 "use client";
 
-import useAuthCardDialogStore from "@/hooks/use-auth-card-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { Card, CardContent, CardTitle } from "../ui/card";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookCircleFill } from "react-icons/ri";
 import { FaApple } from "react-icons/fa";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { useState } from "react";
-import { Separator } from "../ui/separator";
+
 import EmailForm from "./EmailForm";
 import PhoneForm from "./PhoneForm";
 import { signIn } from "next-auth/react";
@@ -40,9 +17,8 @@ import { DEFAULT_LOGIN_REDIRECT } from "../../../routes";
 type Props = {};
 
 const AuthCard = (props: Props) => {
-  const params = useSearchParams();
-  const callbackUrl = params.get("callbackUrl");
-  const { isOpen, open, close } = useAuthCardDialogStore();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
 
   const [toggleInput, setToggleInput] = useState(true);
 
@@ -59,7 +35,7 @@ const AuthCard = (props: Props) => {
           size="lg"
           onClick={() =>
             signIn("google", {
-              redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+              redirectTo: callbackUrl,
             })
           }
         >
