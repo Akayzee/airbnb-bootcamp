@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +13,9 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "../../../routes";
 
 type Props = {};
 
@@ -22,6 +26,8 @@ const EmailFormSchema = z.object({
 });
 
 const EmailForm = (props: Props) => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
   const form = useForm<z.infer<typeof EmailFormSchema>>({
     resolver: zodResolver(EmailFormSchema),
     defaultValues: {
@@ -29,7 +35,10 @@ const EmailForm = (props: Props) => {
     },
   });
   const onSubmit = (values: z.infer<typeof EmailFormSchema>) => {
-    console.log("I will not run until I do not have any errors");
+    signIn("resend", {
+      email: values.email,
+      redirectTo: callbackUrl,
+    });
   };
 
   return (
