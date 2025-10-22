@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import Container from "../Container";
 import HeaderLinks from "./HeaderLinks";
 import SearchBar from "./SearchBar";
+import HostingHeaderLinks from "./hosting/HostingHeaderLinks";
 
 const Navbar = () => {
   return (

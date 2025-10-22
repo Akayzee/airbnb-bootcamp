@@ -14,7 +14,7 @@ const Menu = (props: Props) => {
   const { data: session } = useSession();
 
   return (
-    <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 ">
+    <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 w-full justify-end">
       <div className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
         Become a host
       </div>
