@@ -10,7 +10,7 @@ const HeaderLinks = (props: Props) => {
   const pathname = usePathname();
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex gap-3">
         <div
           className={` ${

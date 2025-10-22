@@ -45,10 +45,12 @@ const AuthCard = (props: Props) => {
           variant="outline"
           className="w-full flex gap-10 border-1 border-black  mb-3 hover:cursor-pointer"
           size="lg"
-          onClick={() =>
-            signIn("google", {
-              redirectTo: callbackUrl,
-            })
+          onClick={
+            // () =>
+            // signIn("google", {
+            //   redirectTo: callbackUrl,
+            // })
+            handleSignIn
           }
         >
           <div className="w-1/4">

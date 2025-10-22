@@ -5,7 +5,7 @@ type Props = {};
 
 const Logo = (props: Props) => {
   return (
-    <div className="hidden md:block">
+    <div className="hidden md:block w-full">
       <Image
         src="/images/logo.png"
         alt="Logo"

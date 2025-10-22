@@ -2539,3 +2539,22 @@ export const allCountries = [
     dial_code: "+263",
   },
 ];
+
+export const HostingNavLinks = [
+  {
+    label: "Today",
+    path: "/hosting",
+  },
+  {
+    label: "Calendar",
+    path: "/calendar-router",
+  },
+  {
+    label: "Listings",
+    path: "/hosting/listings",
+  },
+  {
+    label: "Messages",
+    path: "/hosting/messages",
+  },
+];
