@@ -9,13 +9,13 @@ type Props = {
 
 const TodaysReservations = ({ reservations }: Props) => {
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <div className="h-72 w-72 md:h-48 md:w-48">
+    <div className="flex flex-col items-center justify-center mt-30">
+      <div>
         <Image
           src="/images/rai.avif"
           alt="book-reservation"
-          height={500}
-          width={500}
+          height={300}
+          width={300}
           className="object-cover"
         />
       </div>
@@ -26,13 +26,19 @@ const TodaysReservations = ({ reservations }: Props) => {
       {/* <p className="text-sm">
         Your place wont appear in search results and cant be booked.
       </p> */}
-      <Link href="/hosting/listings" className="mt-10">
+      <Link href="/hosting/listings" className="mt-10 mb-50">
         <Button
           className="bg-gray-300 hover:bg-gray-300 text-gray-600 hover:cursor-pointer"
           size="lg"
         >
           Go to listings
         </Button>
+      </Link>
+      <Link
+        href="/hosting/reservations"
+        className="text-sm text-muted-foreground underline mb-30"
+      >
+        See all reservations
       </Link>
     </div>
   );

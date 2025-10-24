@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import AuthCard from "@/components/auth/AuthCard";
 import { SessionProvider } from "next-auth/react";
 import AuthDialog from "@/components/auth/AuthDialog";
+import CreateListingDialog from "@/components/listings/CreateListingDialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,12 +39,13 @@ export default function PublicLayout({
   return (
     <>
       <AuthDialog />
+      <CreateListingDialog />
       <div className="hidden md:block">
         <Navbar />
       </div>
       <div className="md:mt-60">
         <Container>
-          <div className="">{children}</div>
+          <div className="min-h-screen">{children}</div>
         </Container>
       </div>
       <Footer />

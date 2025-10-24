@@ -1,23 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/desktop/Navbar";
-import Container from "@/components/Container";
 import NextTopLoader from "nextjs-toploader";
-import Footer from "@/components/Footer/Footer";
-import { Toaster } from "react-hot-toast";
-import AuthCard from "@/components/auth/AuthCard";
 import { SessionProvider } from "next-auth/react";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -37,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` ${nunito.variable} antialiased `}>
-        <NextTopLoader height={3} />
+        <NextTopLoader height={3} color="#ff5a5f" />
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

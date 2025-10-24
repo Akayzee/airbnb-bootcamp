@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import React from "react";
+import ListingsClient from "./ListingsClient";
 
 type Props = {};
 
@@ -10,7 +11,11 @@ const HostingListings = async (props: Props) => {
     return "You are not logged In ";
   }
 
-  return <div>{JSON.stringify(session.user)}</div>;
+  return (
+    <div>
+      <ListingsClient />
+    </div>
+  );
 };
 
 export default HostingListings;
