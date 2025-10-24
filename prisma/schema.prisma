@@ -24,6 +24,8 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+  listings      Listing[]
+  reviews       Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,4 +84,60 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Listing {
+  id            String     @id @default(cuid())
+  title         String?
+  location      String?
+  lat           Float?
+  lng           Float?
+  price         Int?
+  weekendPrice  Int?
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestFavorite Boolean    @default(false)
+  hostType      String?
+  reviews       Review[]
+  photos        String[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  guestCount    Int        @default(0)
+  bedroomCount  Int        @default(0)
+  bedCount      Int        @default(0)
+  bathroomCount Int        @default(0)
+  amenityIds    String[]
+  amenities     Amenity[]
+  categories    Category[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  listingId String
+  userId    String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Amenity {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  icon        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  listings    Listing[]
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  icon      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  listings  Listing[]
 }

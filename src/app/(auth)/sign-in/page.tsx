@@ -1,6 +1,6 @@
 import AuthCard from "@/components/auth/AuthCard";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import React from "react";
+import React, { Suspense } from "react";
 
 type Props = {};
 
@@ -10,7 +10,9 @@ const SignInPage = (props: Props) => {
       <Card className="w-full flex justify-center  md:w-1/3">
         <CardTitle className="text-center">Log in or Sign up</CardTitle>
         <CardContent className="">
-          <AuthCard />
+          <Suspense>
+            <AuthCard />
+          </Suspense>
         </CardContent>
       </Card>
     </div>

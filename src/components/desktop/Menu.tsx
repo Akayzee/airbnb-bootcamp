@@ -6,16 +6,21 @@ import { BsQuestionCircle } from "react-icons/bs";
 import useAuthCardDialogStore from "@/hooks/use-auth-card-dialog";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import useCreateListingDialogStore from "@/hooks/use-create-listing-dialog";
 
 type Props = {};
 
 const Menu = (props: Props) => {
   const { open, isOpen } = useAuthCardDialogStore();
+  const { open: openHostDialog } = useCreateListingDialogStore();
   const { data: session } = useSession();
 
   return (
     <div className="hidden md:flex items-center rounded-full text-gray-600 gap-3 w-full justify-end">
-      <div className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full">
+      <div
+        onClick={openHostDialog}
+        className="text-sm  font-semibold hover:cursor-pointer hover:bg-gray-200 p-2 rounded-full"
+      >
         Become a host
       </div>
 

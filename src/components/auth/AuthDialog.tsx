@@ -1,6 +1,6 @@
 "use client";
 import useAuthCardDialogStore from "@/hooks/use-auth-card-dialog";
-import React from "react";
+import React, { Suspense } from "react";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import AuthCard from "./AuthCard";
 
@@ -13,8 +13,9 @@ const AuthDialog = (props: Props) => {
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent className="rounded-3xl ">
         <DialogTitle className="text-center ">Log in or sign up</DialogTitle>
-
-        <AuthCard />
+        <Suspense>
+          <AuthCard />
+        </Suspense>
       </DialogContent>
     </Dialog>
   );

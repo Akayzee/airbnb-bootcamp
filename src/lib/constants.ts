@@ -2558,3 +2558,21 @@ export const HostingNavLinks = [
     path: "/hosting/messages",
   },
 ];
+
+export const HostingOptions = [
+  {
+    label: "Home",
+    path: "/become-a-host",
+    image: "/images/home.avif",
+  },
+  {
+    label: "Experience",
+    path: "/setup/experiences/create",
+    image: "/images/parachute.avif",
+  },
+  {
+    label: "Service",
+    path: "/setup/services/create",
+    image: "/images/bell.avif",
+  },
+];

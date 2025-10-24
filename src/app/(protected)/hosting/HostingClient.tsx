@@ -40,30 +40,32 @@ const HostingClient = ({ todaysReservations, upcomingReservations }: Props) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center gap-3">
-        <div className="flex gap-3">
-          {tabs.map((tab) => (
-            <Button
-              className={`cursor-pointer rounded-3xl bg-gray-300 text-md p-6 text-gray-600 hover:bg-gray-300 ${
-                activeTab === tab.slug
-                  ? "font-bold text-white bg-gray-800 hover:bg-gray-800"
-                  : ""
-              }`}
-              key={tab.slug}
-              onClick={() => {
-                setActiveTab(tab.slug);
-                handleTabChange(tab.slug);
-              }}
-              size="lg"
-            >
-              {" "}
-              {tab.trigger}{" "}
-            </Button>
-          ))}
+      <div className="fixed  inset-x-0 flex justify-center z-10">
+        <div className="flex justify-center gap-3">
+          <div className="flex gap-3">
+            {tabs.map((tab) => (
+              <Button
+                className={`cursor-pointer rounded-3xl bg-gray-300 text-md p-6 text-gray-600 hover:bg-gray-300 ${
+                  activeTab === tab.slug
+                    ? "font-bold text-white bg-gray-800 hover:bg-gray-800"
+                    : ""
+                }`}
+                key={tab.slug}
+                onClick={() => {
+                  setActiveTab(tab.slug);
+                  handleTabChange(tab.slug);
+                }}
+                size="lg"
+              >
+                {" "}
+                {tab.trigger}{" "}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
       {activeTabContent && (
-        <div className="mt-6">{activeTabContent.content}</div>
+        <div className="mt-10">{activeTabContent.content}</div>
       )}
     </div>
   );

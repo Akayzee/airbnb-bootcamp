@@ -5,6 +5,7 @@ import Container from "@/components/Container";
 import Footer from "@/components/Footer/Footer";
 import HostingNavbar from "@/components/desktop/hosting/HostingNavbar";
 import CreateListingDialog from "@/components/listings/CreateListingDialog";
+import CreateListingNavbar from "@/components/listings/CreateListingNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,23 +27,17 @@ export const metadata: Metadata = {
   description: "Book your vacations and stay anywhere you want",
 };
 
-export default function HostingLayout({
+export default function BecomeAHostLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <CreateListingDialog />
-      <div className="hidden md:block">
-        <HostingNavbar />
-      </div>
-      <div className="md:mt-20">
-        <Container>
-          <div className="min-h-[100vh]">{children}</div>
-        </Container>
-      </div>
-      <Footer />
-    </>
+    <div>
+      <CreateListingNavbar />
+      <Container>
+        <div className="">{children}</div>
+      </Container>
+    </div>
   );
 }

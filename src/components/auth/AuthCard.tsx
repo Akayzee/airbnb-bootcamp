@@ -24,15 +24,15 @@ const AuthCard = (props: Props) => {
 
   const [toggleInput, setToggleInput] = useState(true);
 
-  const handleSignIn = () => {
-    login().then((response) => {
-      if (response.success) {
-        toast.success(`${response.success}`);
-      } else if (response.error) {
-        toast.error(`${response.error}`);
-      }
-    });
-  };
+  // const handleSignIn = () => {
+  //   login().then((response) => {
+  //     if (response.success) {
+  //       toast.success(`${response.success}`);
+  //     } else if (response.error) {
+  //       toast.error(`${response.error}`);
+  //     }
+  //   });
+  // };
 
   return (
     <>
@@ -45,12 +45,10 @@ const AuthCard = (props: Props) => {
           variant="outline"
           className="w-full flex gap-10 border-1 border-black  mb-3 hover:cursor-pointer"
           size="lg"
-          onClick={
-            // () =>
-            // signIn("google", {
-            //   redirectTo: callbackUrl,
-            // })
-            handleSignIn
+          onClick={() =>
+            signIn("google", {
+              redirectTo: callbackUrl,
+            })
           }
         >
           <div className="w-1/4">
