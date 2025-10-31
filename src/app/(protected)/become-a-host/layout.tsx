@@ -33,10 +33,10 @@ export default function BecomeAHostLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="">
       <CreateListingNavbar />
       <Container>
-        <div className="">{children}</div>
+        <div className="md:mt-10">{children}</div>
       </Container>
     </div>
   );

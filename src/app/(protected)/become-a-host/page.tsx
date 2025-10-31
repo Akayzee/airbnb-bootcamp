@@ -1,7 +1,13 @@
-import React from "react";
+"use client";
+import React, { useTransition } from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/auth";
+import { createListing } from "@/actions/listing/create-listing";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type Props = {};
 
@@ -28,14 +34,37 @@ const GetStartedSteps = [
   },
 ];
 
-const page = (props: Props) => {
+const BecomeAHost = (props: Props) => {
+  const user = useCurrentUser();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  if (!user) {
+    return <div>Please log in to become a host.</div>;
+  }
+
+  const handleGetStarted = () => {
+    startTransition(() => {
+      createListing({
+        userId: user.id!,
+        step: "about-your-place",
+      }).then((res) => {
+        if (res.success) {
+          router.push(`/become-a-host/${res.listing.id}/about-your-place`);
+        } else {
+          toast.error(`${res.error}`);
+        }
+      });
+    });
+  };
+
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-2  ">
-        <div className="text-4xl md:text-6xl font-bold self-center p-4">
+    <div className="h-screen md:h-[80vh] flex flex-col overflow-hidden ">
+      <div className="grid grid-cols-1 md:grid-cols-2 flex-1  min-h-0 ">
+        <div className="text-5xl md:text-5xl font-bold self-center p-4 ">
           It is easy to get started on Airbnb
         </div>
-        <div>
+        <div className="self-center ">
           {GetStartedSteps.map((step, index) => (
             <div className="flex flex-col p-4" key={step.step}>
               <div className="flex justify-around gap-3">
@@ -46,7 +75,7 @@ const page = (props: Props) => {
                   <div className="text-gray-800 font-bold text-lg">
                     {step.title}
                   </div>
-                  <div className="text-muted-foreground w-full ">
+                  <div className="text-muted-foreground w-full leading-tight ">
                     {step.description}
                   </div>
                 </div>
@@ -65,14 +94,21 @@ const page = (props: Props) => {
           ))}
         </div>
       </div>
-      <Progress value={0} className="mt-5" />
-      <div className="mt-5 flex md:justify-end">
-        <Button size="lg" className="w-full md:w-32 hover:cursor-pointer">
-          Get Started
-        </Button>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
+        <Progress value={0} className="mt-5" />
+        <div className="mt-5 flex md:justify-end">
+          <Button
+            onClick={handleGetStarted}
+            disabled={isPending}
+            size="lg"
+            className="w-full md:w-32 hover:cursor-pointer"
+          >
+            Get Started
+          </Button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default page;
+export default BecomeAHost;
