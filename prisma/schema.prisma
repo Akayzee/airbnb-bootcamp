@@ -87,7 +87,7 @@ model Authenticator {
 }
 
 model Listing {
-  id            String     @id @default(cuid())
+  id            String       @id @default(cuid())
   title         String?
   location      String?
   lat           Float?
@@ -95,20 +95,26 @@ model Listing {
   price         Int?
   weekendPrice  Int?
   userId        String
-  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  guestFavorite Boolean    @default(false)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestFavorite Boolean      @default(false)
   hostType      String?
   reviews       Review[]
   photos        String[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  guestCount    Int        @default(0)
-  bedroomCount  Int        @default(0)
-  bedCount      Int        @default(0)
-  bathroomCount Int        @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  guestCount    Int          @default(0)
+  bedroomCount  Int          @default(0)
+  bedCount      Int          @default(0)
+  bathroomCount Int          @default(0)
   amenityIds    String[]
   amenities     Amenity[]
-  categories    Category[]
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  step          String?
+  isPublished   Boolean      @default(false)
+  isListed      Boolean      @default(false)
+  privacyTypeId String?
+  privacyType   PrivacyType? @relation(fields: [privacyTypeId], references: [id])
 }
 
 model Review {
@@ -136,8 +142,20 @@ model Amenity {
 model Category {
   id        String    @id @default(cuid())
   name      String    @unique
-  icon      String?
+  icon      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   listings  Listing[]
+  slug      String    @unique
+}
+
+model PrivacyType {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?   @db.Text
+  createdAt   DateTime  @default(now())
+  icon        String
+  slug        String    @unique
+  updatedAt   DateTime  @updatedAt
+  listings    Listing[]
 }

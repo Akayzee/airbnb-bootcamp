@@ -34,8 +34,6 @@ const CreateListingDialog = (props: Props) => {
     setSelectedOption(initialState);
   };
 
-  console.log(selectedOption);
-
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogClose}>
       <DialogContent className="rounded-3xl ">

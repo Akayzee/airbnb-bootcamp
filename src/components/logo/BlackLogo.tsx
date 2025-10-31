@@ -7,7 +7,7 @@ type Props = {};
 const BlackLogo = (props: Props) => {
   return (
     <div className="hidden md:block w-full">
-      <Link href="/">
+      <Link href="/hosting/listings">
         <Image
           src="/images/logoBlack.png"
           alt="Logo"

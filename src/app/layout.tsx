@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import { Toaster } from "react-hot-toast";
+import HolyLoader from "holy-loader";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -14,16 +17,24 @@ export const metadata: Metadata = {
   description: "Book your vacations and stay anywhere you want",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en">
       <body className={` ${nunito.variable} antialiased `}>
-        <NextTopLoader height={3} color="#ff5a5f" />
-        <SessionProvider>{children}</SessionProvider>
+        {/* <NextTopLoader height={3} color="#ff5a5f" /> */}
+        <HolyLoader
+          color="#ff5a5f"
+          height="0.3rem"
+          speed={250}
+          easing="linear"
+        />
+        <Toaster />
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );

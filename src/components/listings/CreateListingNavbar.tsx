@@ -5,13 +5,17 @@ import BlackLogo from "../logo/BlackLogo";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import SaveAndExitButton from "./SaveAndExitButton";
 
 const CreateListingNavbar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="w-full">
-      <Container>
+    <Container>
+      <div
+        className="fixed top-0 left-0 right-0 z-50 p-4 shadow-md w-full bg-gray-50
+    "
+      >
         <div className="flex justify-between items-center ">
           <BlackLogo />
 
@@ -33,19 +37,12 @@ const CreateListingNavbar = () => {
                 Questions?
               </Button>
 
-              <Link href="/hosting/listings">
-                <Button
-                  size="lg"
-                  className="border-1 rounded-full border-gray-300 text-gray-800 p-3 hover:border-black bg-transparent hover:bg-transparent hover:cursor-pointer"
-                >
-                  Save & Exit
-                </Button>
-              </Link>
+              <SaveAndExitButton />
             </div>
           )}
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 };
 
