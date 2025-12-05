@@ -19,7 +19,11 @@ const PrivacyType = async ({ params }: PrivacyTypeProps) => {
     return <div>listing Not Found</div>;
   }
 
-  return <PrivacyClient privacyTypes={privacyTypes} listing={listing} />;
+  return (
+    <div className="h-screen md:h-[80vh]  flex flex-col items-center justify-center">
+      <PrivacyClient privacyTypes={privacyTypes} listing={listing} />
+    </div>
+  );
 };
 
 export default PrivacyType;

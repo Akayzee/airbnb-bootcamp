@@ -20,6 +20,7 @@ const useCreateListingStore = create<ListingStoreState & ListingStoreAction>(
   (set, get) => ({
     ...initialState,
     updateDraft: (draft) => set({ draft: { ...get().draft, ...draft } }),
+
     reset: () => set({ draft: {} }),
   })
 );

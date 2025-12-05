@@ -83,6 +83,22 @@ async function main() {
   console.log("✅ privacy Types  seeded.");
 }
 
+// async function main() {
+//   console.log("🌱 Seeding categories with slugs and icons...");
+
+//   for (const { name, icon } of categories) {
+//     const slug = toSlug(name);
+
+//     await prisma.category.upsert({
+//       where: { name },
+//       update: { slug, icon },
+//       create: { name, slug, icon },
+//     });
+//   }
+
+//   console.log("✅ Categories seeded.");
+// }
+
 main()
   .then(() => prisma.$disconnect())
   .catch(async (e) => {

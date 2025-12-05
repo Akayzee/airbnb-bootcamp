@@ -90,6 +90,10 @@ model Listing {
   id            String       @id @default(cuid())
   title         String?
   location      String?
+  city          String?
+  state         String?
+  country       String?
+  country_code  String?
   lat           Float?
   lng           Float?
   price         Int?
@@ -102,10 +106,10 @@ model Listing {
   photos        String[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  guestCount    Int          @default(0)
+  guestCount    Int          @default(1)
   bedroomCount  Int          @default(0)
-  bedCount      Int          @default(0)
-  bathroomCount Int          @default(0)
+  bedCount      Int          @default(1)
+  bathroomCount Float        @default(0.5)
   amenityIds    String[]
   amenities     Amenity[]
   categoryId    String?
