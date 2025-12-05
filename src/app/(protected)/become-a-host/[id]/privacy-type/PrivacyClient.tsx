@@ -49,32 +49,30 @@ const PrivacyClient = ({ privacyTypes, listing, icon: Icon }: Props) => {
   }, [draft, listing.id, router, reset]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1 overflow-y-auto pb-32">
-        <div className="flex justify-center flex-col gap-8 items-center p-4">
-          <div className="text-4xl font-bold text-center">
-            Which type of place will guests have?
-          </div>
-          <div className="flex flex-col gap-4 ">
-            {privacyTypes.map((privacyType) => (
-              <div
-                className={`border-1  rounded-md p-6 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
+    <div className="flex flex-col  ">
+      <div className="flex justify-center flex-col gap-8 items-center p-4">
+        <div className="text-4xl font-bold text-center">
+          Which type of place will guests have?
+        </div>
+        <div className="flex flex-col gap-4 ">
+          {privacyTypes.map((privacyType) => (
+            <div
+              className={`border-1  rounded-md p-6 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
                   ${selectedPrivacyType?.id === privacyType.id ? "border-2 border-black bg-gray-100" : ""}`}
-                key={privacyType.id}
-                onClick={() => handleSelectPrivacyType(privacyType)}
-              >
-                <div className="flex justify-between items-center">
-                  <div className="w-3/5 ">
-                    <p className=" text-lg">{privacyType.name}</p>
-                    <p className="text-gray-500 text-sm w-full">
-                      {privacyType.description}
-                    </p>
-                  </div>
-                  <CategoryIcon icon={`${privacyType.icon}`} size={30} />
+              key={privacyType.id}
+              onClick={() => handleSelectPrivacyType(privacyType)}
+            >
+              <div className="flex justify-between items-center">
+                <div className="w-3/5 ">
+                  <p className=" text-lg">{privacyType.name}</p>
+                  <p className="text-gray-500 text-sm w-full">
+                    {privacyType.description}
+                  </p>
                 </div>
+                <CategoryIcon icon={`${privacyType.icon}`} size={30} />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 

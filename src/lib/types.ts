@@ -14,3 +14,5 @@ export type Listing = {
   guestFavorite?: boolean;
   reviews: Review[];
 };
+
+
