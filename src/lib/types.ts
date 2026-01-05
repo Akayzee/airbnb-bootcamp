@@ -1,3 +1,5 @@
+import { Prisma } from "../../generated/prisma";
+
 export type Review = {
   id: number;
   rating: number;
@@ -15,4 +17,8 @@ export type Listing = {
   reviews: Review[];
 };
 
-
+export type ListingWithAmenities = Prisma.ListingGetPayload<{
+  include: {
+    amenities: true;
+  };
+}>;
