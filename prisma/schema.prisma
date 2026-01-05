@@ -134,13 +134,16 @@ model Review {
 }
 
 model Amenity {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  description String?
-  icon        String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  listings    Listing[]
+  id              String    @id @default(cuid())
+  name            String    @unique
+  description     String?
+  icon            String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  isGuestFavorite Boolean   @default(false)
+  isStandOut      Boolean   @default(false)
+  isSafety        Boolean   @default(false)
+  listings        Listing[]
 }
 
 model Category {
