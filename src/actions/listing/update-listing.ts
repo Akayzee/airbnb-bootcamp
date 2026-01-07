@@ -8,9 +8,21 @@ export const updateListing = async (
   listingId: string
 ) => {
   try {
+    // Extract amenityIds if present
+    const { amenityIds, ...restDraft } = draft;
+
     const updatedListing = await prisma.listing.update({
       where: { id: listingId },
-      data: draft,
+      data: {
+        ...restDraft,
+        // Handle amenities relationship if amenityIds is provided
+        ...(amenityIds && {
+          amenityIds: amenityIds,
+          amenities: {
+            set: amenityIds.map((id) => ({ id })),
+          },
+        }),
+      },
     });
 
     if (!updatedListing) {

@@ -53,7 +53,12 @@ const StructureClient = ({ categories, listing, icon: Icon }: Props) => {
             {categories.map((category) => (
               <div
                 className={`border-1 md:w-60 rounded-md p-4 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
-                  ${selectedCategory?.id === category.id ? "border-2 border-black bg-gray-100" : ""}`}
+                  ${
+                    selectedCategory?.id === category.id
+                      ? "border-2 border-black bg-gray-100"
+                      : ""
+                  }
+                  `}
                 key={category.id}
                 onClick={() => handleSelectCategory(category)}
               >
