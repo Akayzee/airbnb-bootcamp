@@ -44,7 +44,7 @@ const HostingListingCard = ({ listing, onClick }: HostingListingCardProps) => {
         <div className="flex flex-col gap-1">
           {listing.title && listing.location ? (
             <p className="font-semibold text-xs text-gray-900 ">
-              {listing.title} in {listing.location}
+              {listing.title}
             </p>
           ) : (
             <p className="font-semibold text-xs text-gray-900 ">

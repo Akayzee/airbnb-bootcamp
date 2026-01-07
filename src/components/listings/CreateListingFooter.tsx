@@ -17,6 +17,11 @@ type Props = {
     hasValidAddress?: boolean;
     hasNoErrors?: boolean;
     isFormComplete?: boolean;
+    selectedAmenitiesIds?: string[];
+    title?: string;
+    description?: string;
+    price?: number | null;
+    weekendPrice?: number | null;
   };
   handleNext?: () => void;
 };
@@ -43,6 +48,23 @@ const CreateListingFooter = ({
     // For category selection page
     if (options.selectedCategory !== undefined) {
       return !options.selectedCategory;
+    }
+
+    if (options.title !== undefined) {
+      return options.title === "";
+    }
+    if (options.description !== undefined) {
+      return options.description === "";
+    }
+
+    if (options.price !== undefined && options.price !== null) {
+      return (
+        options.price === 0 || options.price < 100 || options.price > 100000
+      );
+    }
+
+    if (options.selectedAmenitiesIds !== undefined) {
+      return options.selectedAmenitiesIds.length === 0;
     }
 
     // For privacy type selection page

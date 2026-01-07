@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Amenity } from "../../../../../../generated/prisma";
 import { ListingWithAmenities } from "@/lib/types";
 import CreateListingFooter from "@/components/listings/CreateListingFooter";
@@ -16,6 +16,9 @@ type Props = {
 
 const AmenitiesClient = ({ listing, amenities }: Props) => {
   const { updateDraft, draft, reset } = useCreateListingStore();
+  const [selectedAmenitiesIds, setSelectedAmenitiesIds] = useState<string[]>(
+    listing.amenityIds
+  );
 
   const isGuestFavoriteAmenities = amenities.filter(
     (amenity) => amenity.isGuestFavorite
@@ -23,19 +26,20 @@ const AmenitiesClient = ({ listing, amenities }: Props) => {
   const isStandOutAmenities = amenities.filter((amenity) => amenity.isStandOut);
   const isSafetyAmenities = amenities.filter((amenity) => amenity.isSafety);
 
-  //   const initialCategory = listing.categoryId
-  //     ? categories.find((cat) => cat.id === listing.categoryId)
-  //     : undefined;
-
-  //   const [selectedCategory, setSelectedCategory] = useState<
-  //     Category | undefined
-  //   >(initialCategory);
   const router = useRouter();
 
-  //   const handleSelectCategory = (category: Category) => {
-  //     setSelectedCategory(category);
-  //     updateDraft({ categoryId: category.id, step: "structure", id: listing.id });
-  //   };
+  const handleSelectAmenity = (amenityId: string) => {
+    const isSelected = selectedAmenitiesIds.includes(amenityId);
+    const newAmenityIds = isSelected
+      ? selectedAmenitiesIds.filter((id) => id !== amenityId)
+      : [...selectedAmenitiesIds, amenityId];
+    setSelectedAmenitiesIds(newAmenityIds);
+    updateDraft({
+      amenityIds: newAmenityIds,
+      step: "amenities",
+      id: listing.id,
+    });
+  };
 
   const handleNext = useCallback(() => {
     updateListing(draft, listing.id).then((res) => {
@@ -65,11 +69,15 @@ const AmenitiesClient = ({ listing, amenities }: Props) => {
               <div
                 className={`border-1 md:w-60 rounded-md p-4 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
  
-
+  ${
+    selectedAmenitiesIds.includes(amenity.id)
+      ? "border-2 border-black bg-gray-100"
+      : ""
+  }
 
                 }`}
                 key={amenity.id}
-                // onClick={() => handleSelectCategory(category)}
+                onClick={() => handleSelectAmenity(amenity.id)}
               >
                 <CustomIcon icon={amenity.icon} />
                 {amenity.name}
@@ -85,12 +93,16 @@ const AmenitiesClient = ({ listing, amenities }: Props) => {
             {isStandOutAmenities.map((amenity) => (
               <div
                 className={`border-1 md:w-60 rounded-md p-4 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
- 
+  ${
+    selectedAmenitiesIds.includes(amenity.id)
+      ? "border-2 border-black bg-gray-100"
+      : ""
+  }
 
 
                 }`}
                 key={amenity.id}
-                // onClick={() => handleSelectCategory(category)}
+                onClick={() => handleSelectAmenity(amenity.id)}
               >
                 <CustomIcon icon={amenity.icon} />
                 {amenity.name}
@@ -103,12 +115,16 @@ const AmenitiesClient = ({ listing, amenities }: Props) => {
             {isSafetyAmenities.map((amenity) => (
               <div
                 className={`border-1 md:w-60 rounded-md p-4 flex flex-col gap-2 hover:border-black cursor-pointer transition transform active:scale-95
- 
+   ${
+     selectedAmenitiesIds.includes(amenity.id)
+       ? "border-2 border-black bg-gray-100"
+       : ""
+   }
 
 
                 }`}
                 key={amenity.id}
-                // onClick={() => handleSelectCategory(category)}
+                onClick={() => handleSelectAmenity(amenity.id)}
               >
                 <CustomIcon icon={amenity.icon} />
                 {amenity.name}
@@ -118,35 +134,12 @@ const AmenitiesClient = ({ listing, amenities }: Props) => {
         </div>
       </div>
 
-      {/* <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
-        <Progress value={7} className="mb-4" />
-        <div className="flex justify-between gap-2">
-          <Link href={`/become-a-host/${listing.id}/about-your-place`}>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-32 hover:cursor-pointer"
-            >
-              Back
-            </Button>
-          </Link>
-
-          <Button
-            size="lg"
-            className={`w-32 ${selectedCategory ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
-            disabled={!selectedCategory}
-            onClick={handleNext}
-          >
-            Next
-          </Button>
-        </div>
-      </div> */}
       <CreateListingFooter
         nextHref={`/become-a-host/${listing.id}/photos`}
         backHref={`/become-a-host/${listing.id}/stand-out`}
-        prevProgress={0}
-        nextProgress={7}
-        // options={{ selectedCategory }}
+        prevProgress={36}
+        nextProgress={45}
+        options={{ selectedAmenitiesIds }}
         handleNext={handleNext}
       />
     </div>

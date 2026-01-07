@@ -10,14 +10,14 @@ type Props = {
   id: string;
 };
 
-const StandOutClient = ({ id }: Props) => {
-  const { updateDraft, draft, reset } = useCreateListingStore();
+const FinishSetupClient = ({ id }: Props) => {
+  const { draft, reset } = useCreateListingStore();
   const router = useRouter();
 
   const handleNext = useCallback(() => {
     updateListing(draft, id).then((res) => {
       if (res.success) {
-        router.push(`/become-a-host/${id}/amenities`);
+        router.push(`/become-a-host/${id}/price`);
         reset();
       }
     });
@@ -27,33 +27,30 @@ const StandOutClient = ({ id }: Props) => {
       <div className="h-screen  flex flex-col  ">
         <div className="grid grid-cols-1 md:grid-cols-2 flex-1">
           <div className="self-center p-4 order-2 md:order-1">
-            <div>Step 2</div>
-            <h1 className="text-4xl font-bold mt-3 ">
-              Make Your Place Stand Out
-            </h1>
+            <div>Step 3</div>
+            <h1 className="text-4xl font-bold mt-3 ">Finish up and publish</h1>
             <p className="mt-3 text-gray-600">
-              In this step, you will add some of the amenities your place
-              offers, plus 5 or more photos. Then, you will create a title and
-              description
+              You will set your nightly price. Then answer a few quick questions
+              and publish your listing when you’re ready.
             </p>
           </div>
           <div className="self-center order-1 md:order-2">
             <video autoPlay muted>
-              <source src="/videos/stand-out.mp4" type="video/mp4" />
+              <source src="/videos/finish-up.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
       <CreateListingFooter
-        nextHref={`/become-a-host/${id}/amenities`}
-        backHref={`/become-a-host/${id}/floor-plan`}
-        prevProgress={27}
-        nextProgress={36}
+        nextHref={`/become-a-host/${id}/price`}
+        backHref={`/become-a-host/${id}/description`}
+        prevProgress={72}
+        nextProgress={80}
         handleNext={handleNext}
       />
     </div>
   );
 };
 
-export default StandOutClient;
+export default FinishSetupClient;
