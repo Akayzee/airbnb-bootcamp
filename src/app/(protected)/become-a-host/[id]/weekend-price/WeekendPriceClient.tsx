@@ -38,19 +38,17 @@ const WeekendPriceClient = ({ listing }: props) => {
   const formattedGuestPrice = new Intl.NumberFormat().format(
     Math.round(calculatedWeekendPrice * 1.14)
   );
-  console.log(weekendPrice, "WeekendPrice");
-  console.log(listing.weekendPremium, "WeekendPremium");
 
   const router = useRouter();
 
   const handleSliderChange = (value: number[]) => {
     const newPremium = value[0];
-    setPremium(newPremium);
+    handleUpdate(newPremium);
+  };
 
-    // Calculate new weekend price based on premium
-    const newWeekendPrice = Math.round(basePrice * (1 + newPremium / 100));
-
-    // Validate with Zod
+  function handleUpdate(value: number) {
+    setPremium(value);
+    const newWeekendPrice = Math.round(basePrice * (1 + value / 100));
     const result = priceSchema.safeParse(newWeekendPrice);
 
     if (!result.success) {
@@ -62,10 +60,31 @@ const WeekendPriceClient = ({ listing }: props) => {
     setWeekendPrice(newWeekendPrice);
     updateDraft({
       weekendPrice: newWeekendPrice,
-      weekendPremium: newPremium,
+      weekendPremium: value,
       step: "weekend-price",
       id: listing.id,
     });
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "") {
+      handleUpdate(0);
+      return;
+    }
+
+    let newPrice = parseInt(value);
+    if (Number.isNaN(newPrice)) {
+      handleUpdate(0);
+
+      return;
+    }
+
+    if (newPrice > 100) {
+      newPrice = 100;
+    }
+
+    handleUpdate(newPrice);
   };
 
   const handleNext = useCallback(() => {
@@ -124,25 +143,7 @@ const WeekendPriceClient = ({ listing }: props) => {
                   min={0}
                   style={{ width: "3ch" }}
                   value={premium}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value === "") {
-                      setPremium(0);
-                      return;
-                    }
-
-                    let newPrice = parseInt(value);
-                    if (Number.isNaN(newPrice)) {
-                      setPremium(0);
-                      return;
-                    }
-
-                    if (newPrice > 100) {
-                      newPrice = 100;
-                    }
-
-                    setPremium(newPrice);
-                  }}
+                  onChange={handleChange}
                   className="
       inline
       text-sm

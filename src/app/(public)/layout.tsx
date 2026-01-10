@@ -10,6 +10,7 @@ import AuthCard from "@/components/auth/AuthCard";
 import { SessionProvider } from "next-auth/react";
 import AuthDialog from "@/components/auth/AuthDialog";
 import CreateListingDialog from "@/components/listings/CreateListingDialog";
+import ExitDialog from "@/components/listings/ExitDialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function PublicLayout({
     <>
       <AuthDialog />
       <CreateListingDialog />
+
       <div className="hidden md:block">
         <Navbar />
       </div>
