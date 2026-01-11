@@ -6,6 +6,7 @@ import Footer from "@/components/Footer/Footer";
 import HostingNavbar from "@/components/desktop/hosting/HostingNavbar";
 import CreateListingDialog from "@/components/listings/CreateListingDialog";
 import CreateListingNavbar from "@/components/listings/CreateListingNavbar";
+import ExitDialog from "@/components/listings/ExitDialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function BecomeAHostLayout({
 }>) {
   return (
     <div className="">
+      <ExitDialog />
       <CreateListingNavbar />
       <Container>
         <div className="md:mt-10">{children}</div>
