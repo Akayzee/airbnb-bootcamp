@@ -80,8 +80,8 @@ const PriceClient = ({ listing }: props) => {
   }, [draft, listing.id, router, reset]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <div className="mx-auto flex w-full max-w-[600px] flex-1 flex-col px-6 pt-16 pb-12">
+    <div className="flex  flex-col bg-background">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-6 pt-16 pb-12">
         <div className="flex flex-col justify-center space-y-3">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Now, set a weekday base price

@@ -26,13 +26,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={` ${nunito.variable} antialiased `}>
-        {/* <NextTopLoader height={3} color="#ff5a5f" /> */}
-        <HolyLoader
+        <NextTopLoader height={3} color="#ff5a5f" />
+        {/* <HolyLoader
           color="#ff5a5f"
           height="0.3rem"
           speed={250}
           easing="linear"
-        />
+        /> */}
         <Toaster />
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>

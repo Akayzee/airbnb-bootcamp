@@ -87,47 +87,52 @@ model Authenticator {
 }
 
 model Listing {
-  id                   String       @id @default(cuid())
-  title                String?
-  description          String?
-  location             String?
-  city                 String?
-  state                String?
-  country              String?
-  country_code         String?
-  lat                  Float?
-  lng                  Float?
-  price                Int?
-  weekendPrice         Int?
-  weekendPremium       Int?
-  userId               String
-  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  guestFavorite        Boolean      @default(false)
-  hostType             String?
-  reviews              Review[]
-  photos               String[]
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @updatedAt
-  guestCount           Int          @default(1)
-  bedroomCount         Int          @default(0)
-  bedCount             Int          @default(1)
-  bathroomCount        Float        @default(0.5)
-  amenityIds           String[]
-  amenities            Amenity[]
-  categoryId           String?
-  category             Category?    @relation(fields: [categoryId], references: [id])
-  step                 String?
-  isPublished          Boolean      @default(false)
-  isListed             Boolean      @default(false)
-  privacyTypeId        String?
-  privacyType          PrivacyType? @relation(fields: [privacyTypeId], references: [id])
-  isNewListingDiscount Boolean      @default(true)
-  isLastMinuteDiscount Boolean      @default(true)
-  isWeeklyDiscount     Boolean      @default(true)
-  isMonthlyDiscount    Boolean      @default(true)
-  lastMinuteDiscount   Int?
-  weeklyDiscount       Int?
-  monthlyDiscount      Int?
+  id                        String       @id @default(cuid())
+  title                     String?
+  description               String?
+  location                  String?
+  city                      String?
+  state                     String?
+  country                   String?
+  country_code              String?
+  lat                       Float?
+  lng                       Float?
+  price                     Int?
+  weekendPrice              Int?
+  weekendPremium            Int?
+  userId                    String
+  user                      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestFavorite             Boolean      @default(false)
+  hostType                  String?
+  reviews                   Review[]
+  photos                    String[]
+  createdAt                 DateTime     @default(now())
+  updatedAt                 DateTime     @updatedAt
+  guestCount                Int          @default(1)
+  bedroomCount              Int          @default(0)
+  bedCount                  Int          @default(1)
+  bathroomCount             Float        @default(0.5)
+  amenityIds                String[]
+  amenities                 Amenity[]
+  categoryId                String?
+  category                  Category?    @relation(fields: [categoryId], references: [id])
+  step                      String?
+  isPublished               Boolean      @default(false)
+  isListed                  Boolean      @default(false)
+  privacyTypeId             String?
+  privacyType               PrivacyType? @relation(fields: [privacyTypeId], references: [id])
+  isNewListingDiscount      Boolean      @default(true)
+  newListingDiscount        Int?         @default(20)
+  isLastMinuteDiscount      Boolean      @default(false)
+  isWeeklyDiscount          Boolean      @default(true)
+  isMonthlyDiscount         Boolean      @default(true)
+  lastMinuteDiscount        Int?         @default(0)
+  weeklyDiscount            Int?         @default(12)
+  monthlyDiscount           Int?         @default(25)
+  isNoiseMonitor            Boolean      @default(false)
+  isWeapons                 Boolean      @default(false)
+  isSecurityCamera          Boolean      @default(false)
+  securityCameraDescription String?
 }
 
 model Review {

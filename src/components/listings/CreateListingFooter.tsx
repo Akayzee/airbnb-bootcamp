@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
 import { Category, PrivacyType } from "../../../generated/prisma";
@@ -16,6 +16,7 @@ type Props = {
     selectedPrivacyType?: PrivacyType;
     hasValidAddress?: boolean;
     hasNoErrors?: boolean;
+    hasNoDiscountErrors?: boolean;
     isFormComplete?: boolean;
     selectedAmenitiesIds?: string[];
     title?: string;
@@ -23,7 +24,7 @@ type Props = {
     price?: number | null;
     weekendPrice?: number | null;
   };
-  handleNext?: () => void;
+  handleNext: () => void;
 };
 
 const CreateListingFooter = ({
@@ -36,6 +37,7 @@ const CreateListingFooter = ({
 }: Props) => {
   const [progress, setProgress] = useState(prevProgress);
   const { reset } = useCreateListingStore();
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const timer = setTimeout(() => setProgress(nextProgress), 100);
@@ -84,16 +86,26 @@ const CreateListingFooter = ({
         options.isFormComplete
       );
     }
+    //For Discount Page
+    if (options.hasNoDiscountErrors !== undefined) {
+      return !options.hasNoDiscountErrors;
+    }
 
     return false;
   };
 
   const buttonDisabled = isDisabled();
 
+  const handleNextButton = () => {
+    startTransition(() => {
+      handleNext();
+    });
+  };
+
   return (
     <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg z-50">
       <Progress value={progress} className="mt-5" />
-      <div className="mt-5 flex md:justify-between gap-2 flex-col md:flex-row">
+      <div className="mt-5 flex justify-between gap-2 ">
         <Link href={backHref}>
           <Button
             onClick={reset}
@@ -101,28 +113,31 @@ const CreateListingFooter = ({
             // disabled={isPending}
             variant="outline"
             size="lg"
-            className="w-full md:w-32 hover:cursor-pointer"
+            className="w-32  hover:cursor-pointer"
           >
             Back
           </Button>
         </Link>
         {buttonDisabled ? (
           <Button
-            onClick={handleNext}
             disabled
             size="lg"
-            className="w-full md:w-32 cursor-not-allowed opacity-50"
+            className="w-32  cursor-not-allowed opacity-50"
           >
             Next
           </Button>
         ) : (
           //   <Link href={nextHref}>
           <Button
-            onClick={handleNext}
+            onClick={handleNextButton}
             size="lg"
-            className="w-full md:w-32 hover:cursor-pointer"
+            className="w-32  hover:cursor-pointer"
           >
-            Next
+            {isPending ? (
+              <div className="h-4 w-4 rounded-full border-2 border-gray-300 border-t-gray-600 animate-spin" />
+            ) : (
+              "Next"
+            )}
           </Button>
           //   </Link>
         )}
