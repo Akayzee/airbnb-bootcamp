@@ -97,14 +97,15 @@ const WeekendPriceClient = ({ listing }: props) => {
   }, [draft, listing.id, router, reset]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background ">
-      <div className="mx-auto flex w-full max-w-4xl items-center flex-1 flex-col px-6 pt-16 pb-12">
+    <div className="flex  flex-col bg-background ">
+      <div className="mx-auto flex w-full max-w-2xl items-center flex-1 flex-col px-6 pt-16 pb-12">
         <div className="flex flex-col space-y-3 w-full">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Set a Weekend Price
+            Add Discounts
           </h1>
           <p className="text-sm text-muted-foreground">
-            Add a premium for fridays and saturdays
+            Help your place stand out to get booked faster and earn your first
+            reviews.
           </p>
         </div>
         <div className="mt-16 flex flex-1 flex-col w-full justify-start gap-6">

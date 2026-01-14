@@ -23,25 +23,24 @@ const FinishSetupClient = ({ id }: Props) => {
     });
   }, [id, draft, reset, router]);
   return (
-    <div>
-      <div className="h-screen  flex flex-col  ">
-        <div className="grid grid-cols-1 md:grid-cols-2 flex-1">
-          <div className="self-center p-4 order-2 md:order-1">
-            <div>Step 3</div>
-            <h1 className="text-4xl font-bold mt-3 ">Finish up and publish</h1>
-            <p className="mt-3 text-gray-600">
-              You will set your nightly price. Then answer a few quick questions
-              and publish your listing when you’re ready.
-            </p>
-          </div>
-          <div className="self-center order-1 md:order-2">
-            <video autoPlay muted>
-              <source src="/videos/finish-up.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
+    <div className="flex flex-col ">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="self-center p-4 order-2 md:order-1">
+          <div>Step 3</div>
+          <h1 className="text-4xl font-bold mt-3 ">Finish up and publish</h1>
+          <p className="mt-3 text-gray-600">
+            You will set your nightly price. Then answer a few quick questions
+            and publish your listing when you’re ready.
+          </p>
+        </div>
+        <div className="self-center order-1 md:order-2">
+          <video autoPlay muted>
+            <source src="/videos/finish-up.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
+
       <CreateListingFooter
         nextHref={`/become-a-host/${id}/price`}
         backHref={`/become-a-host/${id}/description`}
