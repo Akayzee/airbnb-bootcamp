@@ -83,7 +83,7 @@ const LegalClient = ({ listing }: Props) => {
   const handleNext = useCallback(() => {
     updateListing(draft, listing.id).then((res) => {
       if (res.success) {
-        router.push(`/become-a-host/${listing.id}/legal`);
+        router.push(`/become-a-host/${listing.id}/receipt`);
         reset();
       }
     });
