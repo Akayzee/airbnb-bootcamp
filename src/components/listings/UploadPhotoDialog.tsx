@@ -11,10 +11,23 @@ import { IoMdImages } from "react-icons/io";
 import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { RiDeleteBinLine } from "react-icons/ri";
+import {
+  bootcampUploadPreset,
+  cloudinaryApiKey,
+  cloudinaryBaseUrl,
+  cloudinaryThumbnailUrl,
+} from "../../../cloudinary-config";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { ImageFormValues } from "@/lib/types";
+import { uploadImages } from "@/actions/listing/upload-images";
 
-type Props = {};
+type Props = {
+  listingId: string;
+};
 
-const UploadPhotoDialog = (props: Props) => {
+const UploadPhotoDialog = ({ listingId }: Props) => {
   const { isOpen, close } = useUploadPhotoDialogStore();
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
@@ -31,10 +44,95 @@ const UploadPhotoDialog = (props: Props) => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    maxFiles: 20,
+    maxSize: 2048 * 1000,
+    accept: {
+      "image/*": [],
+    },
   });
   const removeImageFromPreview = (index: number) => {
     setFiles((prevImages) => prevImages.filter((image, i) => i !== index));
   };
+
+  const form = useForm<ImageFormValues>({
+    defaultValues: {
+      images: [],
+      //   advertId: advert.id,
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    control,
+    formState: { errors },
+  } = form;
+
+  const setCustomValue = (id: any, value: any) => {
+    setValue(id, value, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+  };
+
+  const images = watch("images");
+
+  const onSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const url = `${cloudinaryBaseUrl}/image/upload`;
+    const formData = new FormData();
+    let counter = 0;
+
+    files.forEach((file: File) => {
+      counter++;
+      formData.append("file", file);
+      formData.append("upload_preset", bootcampUploadPreset as string);
+      formData.append("api_key", cloudinaryApiKey as string);
+      toast.promise(
+        axios
+          .post(url, formData)
+          .then((res) => {
+            const {
+              secure_url: url,
+              public_id: publicId,
+              signature: signature,
+              created_at: createdAt,
+            } = res.data;
+
+            images.push({
+              url: url,
+              publicId: publicId,
+              signature: signature,
+              thumbnail: `${cloudinaryThumbnailUrl}/${publicId}`,
+            });
+          })
+          .then(() => {
+            if (counter === files.length) {
+              setCustomValue("images", images);
+              if (images.length === files.length) {
+                uploadImages(images, listingId).then(() => {
+                  setCustomValue("images", []);
+                });
+              }
+            }
+          }),
+        {
+          loading: `${file.name} is uploading`,
+          success: `${file.name} uploaded successfully`,
+          error: ` ${file.name} not uploaded`,
+        },
+        // ToastSuccessStyle,
+      );
+    });
+
+    setFiles([]);
+    setRejectedFiles([]);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent className="rounded-3xl ">
@@ -69,13 +167,13 @@ const UploadPhotoDialog = (props: Props) => {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-3 mb-3 mt-3 max-h-96 overflow-y-auto">
+        <div className="grid grid-cols-2 gap-3 mb-3 mt-3 max-h-112 overflow-y-auto">
           {files.length > 0 &&
-            files.map((image, index) => (
+            files.map((file, index) => (
               <div key={index}>
                 <div key={index} className="aspect-square relative">
                   <Image
-                    src={URL.createObjectURL(image)}
+                    src={URL.createObjectURL(file)}
                     key={index}
                     alt=""
                     height={300}
@@ -120,6 +218,24 @@ const UploadPhotoDialog = (props: Props) => {
               </div>
             ))}
         </div>
+        {/* {rejectedFiles && (
+          <ul className="mb-5">
+            {rejectedFiles.map(({ file, index, errors }) => (
+              <li key={index} className="flex items-start justify-between">
+                <div>
+                  <p className="mt-2 text-neutral-500 text-sm font-medium">
+                    {file.name}
+                  </p>
+                  <ul className="text-[12px] text-red-400">
+                    {errors.map((error) => (
+                      <li key={error.code}>{error.message}</li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )} */}
 
         <hr />
         <div className="flex justify-between">
@@ -145,8 +261,9 @@ const UploadPhotoDialog = (props: Props) => {
           )}
 
           <Button
-            disabled
+            disabled={files.length === 0}
             // onClick={handleContinue}
+            onClick={onSubmit}
             size="lg"
             className="hover:cursor-pointer text-md"
           >

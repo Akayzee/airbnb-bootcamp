@@ -29,3 +29,15 @@ export const getListingWithAmenitiesById = async (listingId: string) => {
   });
   return listing;
 };
+
+export const getListingWithPhotosById = async (listingId: string) => {
+  const listing = await prisma.listing.findUnique({
+    where: {
+      id: listingId,
+    },
+    include: {
+      photos: true,
+    },
+  });
+  return listing;
+};

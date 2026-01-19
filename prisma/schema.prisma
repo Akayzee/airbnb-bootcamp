@@ -187,9 +187,21 @@ model Photo {
   url            String
   isCoverPicture Boolean  @default(false)
   createdAt      DateTime @default(now())
+  publicId       String
+  signature      String
   order          Int?
   caption        String?
   updatedAt      DateTime @updatedAt
   listingId      String
   listing        Listing  @relation(fields: [listingId], references: [id])
+
+  // 3) Usually worth it: publicId lookups (and often should be unique)
+  @@unique([publicId])
+  // 1) Fast: get all photos for a listing (and order them consistently)
+  @@index([listingId, order])
+  @@index([listingId, createdAt])
+  // 2) Fast: cover photo lookup per listing
+  @@index([listingId, isCoverPicture])
+  // Optional: if you verify signatures or use them in secure image flows
+  @@index([publicId, signature])
 }
