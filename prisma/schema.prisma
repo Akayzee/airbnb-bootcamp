@@ -105,7 +105,7 @@ model Listing {
   guestFavorite             Boolean      @default(false)
   hostType                  String?
   reviews                   Review[]
-  photos                    String[]
+  images                    Json?
   createdAt                 DateTime     @default(now())
   updatedAt                 DateTime     @updatedAt
   guestCount                Int          @default(1)
@@ -133,6 +133,7 @@ model Listing {
   isWeapons                 Boolean      @default(false)
   isSecurityCamera          Boolean      @default(false)
   securityCameraDescription String?
+  photos                    Photo[]
 }
 
 model Review {
@@ -179,4 +180,16 @@ model PrivacyType {
   slug        String    @unique
   updatedAt   DateTime  @updatedAt
   listings    Listing[]
+}
+
+model Photo {
+  id             String   @id @default(cuid())
+  url            String
+  isCoverPicture Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  order          Int?
+  caption        String?
+  updatedAt      DateTime @updatedAt
+  listingId      String
+  listing        Listing  @relation(fields: [listingId], references: [id])
 }
