@@ -11,9 +11,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import UploadPhotoDialog from "@/components/listings/UploadPhotoDialog";
 import useUploadPhotoDialogStore from "@/hooks/use-upload-photo-dialog";
+import { ListingWithPhotos } from "@/lib/types";
 
 type Props = {
-  listing: Listing;
+  listing: ListingWithPhotos;
 };
 
 const PhotosClient = ({ listing }: Props) => {
@@ -41,23 +42,73 @@ const PhotosClient = ({ listing }: Props) => {
             make changes later.
           </p>
         </div>
-        <div className="mt-4 flex flex-1 p-10  flex-col w-full justify-center items-center  gap-6 border-dashed border-2 border-gray-300 rounded-lg bg-[#F6f6f6]">
-          <Image
-            src="/images/camera.jpeg"
-            width={250}
-            height={250}
-            alt="camera"
-          />
-          <Button
-            variant="outline"
-            className="bg-white border-black w-1/3 hover:cursor-pointer"
-            onClick={open}
-          >
-            Add photos
-          </Button>
-        </div>
+        {listing.photos.length > 0 ? (
+          <div className="grid grid-cols-3 gap-3 mb-3 mt-3  overflow-y-auto">
+            {listing.photos.map((photo) => (
+              <div key={photo.url}>
+                <div key={photo.url} className="aspect-square relative">
+                  <Image
+                    src={photo.url}
+                    key={photo.url}
+                    alt=""
+                    height={300}
+                    width={300}
+                    className="object-cover rounded-lg w-full h-full  transition"
+                  />
+                  <div className="absolute top-1 right-1  md:top-2 md:right-2  hover:cursor-pointer bg-black rounded-full p-2 ">
+                    {/* <RiDeleteBinLine
+                                size={20}
+                                color="#FFFFFF"
+                                onClick={() => {
+                                  removeImageFromPreview(index);
+                                }}
+                              /> */}
+                    {/* <FaCircleXmark
+                                  size={20}
+                                  className="text-destructive   "
+                                  onClick={() => {
+                                    removeImageFromPreview(index);
+                                  }}
+                                /> */}
+
+                    {/* <DropdownMenu>
+                                      <DropdownMenuTrigger>
+                                        <HiDotsCircleHorizontal className="text-secondary" />
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent>
+                                        <DropdownMenuItem
+                                          onClick={() => {
+                                            removeImageFromPreview(index);
+                                          }}
+                                        >
+                                          Remove Picture
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu> */}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 flex flex-1 p-10  flex-col w-full justify-center items-center  gap-6 border-dashed border-2 border-gray-300 rounded-lg bg-[#F6f6f6]">
+            <Image
+              src="/images/camera.jpeg"
+              width={250}
+              height={250}
+              alt="camera"
+            />
+            <Button
+              variant="outline"
+              className="bg-white border-black w-1/3 hover:cursor-pointer"
+              onClick={open}
+            >
+              Add photos
+            </Button>
+          </div>
+        )}
       </div>
-      <UploadPhotoDialog />
+      <UploadPhotoDialog listingId={listing.id} />
       <CreateListingFooter
         nextHref={`/become-a-host/${listing.id}/title`}
         backHref={`/become-a-host/${listing.id}/amenities`}

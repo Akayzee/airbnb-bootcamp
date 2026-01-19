@@ -22,3 +22,20 @@ export type ListingWithAmenities = Prisma.ListingGetPayload<{
     amenities: true;
   };
 }>;
+
+export type ListingWithPhotos = Prisma.ListingGetPayload<{
+  include: {
+    photos: true;
+  };
+}>;
+
+export type ImageContentProps = {
+  url: string;
+  publicId: string;
+  signature: string;
+  thumbnail: string;
+};
+
+export type ImageFormValues = {
+  images: ImageContentProps[];
+};
