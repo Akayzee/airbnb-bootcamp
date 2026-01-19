@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { updateListing } from "@/actions/listing/update-listing";
 import { useCallback } from "react";
 import useCreateListingStore from "@/hooks/use-create-listing-store";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import UploadPhotoDialog from "@/components/listings/UploadPhotoDialog";
+import useUploadPhotoDialogStore from "@/hooks/use-upload-photo-dialog";
 
 type Props = {
   listing: Listing;
@@ -15,6 +19,7 @@ type Props = {
 const PhotosClient = ({ listing }: Props) => {
   const { updateDraft, draft, reset } = useCreateListingStore();
   const router = useRouter();
+  const { open } = useUploadPhotoDialogStore();
 
   const handleNext = useCallback(() => {
     updateListing(draft, listing.id).then((res) => {
@@ -25,27 +30,43 @@ const PhotosClient = ({ listing }: Props) => {
     });
   }, [draft, listing.id, router, reset]);
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex justify-center overflow-y-auto pb-32">
-        <div className="flex justify-between items-center p-4  w-3/4">
-          <div>
-            <div className="text-2xl font-bold ">Choose at least 5 photos</div>
-            <div className="text-md">Drag to reorder</div>
-          </div>
-          <Plus />
+    <div className="flex min-h-[120vh] md:min-h-[100vh] flex-col bg-background ">
+      <div className="mx-auto flex w-full max-w-2xl items-center flex-1 flex-col px-2 md:px-6 pt-8 pb-12">
+        <div className="flex flex-col space-y-3 w-full">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            Add Some photos of your apartment
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            You&apos;ll need 5 photos to get started. You can add more or or
+            make changes later.
+          </p>
         </div>
-        <div className="flex justify-center flex-col gap-8 items-center p-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+        <div className="mt-4 flex flex-1 p-10  flex-col w-full justify-center items-center  gap-6 border-dashed border-2 border-gray-300 rounded-lg bg-[#F6f6f6]">
+          <Image
+            src="/images/camera.jpeg"
+            width={250}
+            height={250}
+            alt="camera"
+          />
+          <Button
+            variant="outline"
+            className="bg-white border-black w-1/3 hover:cursor-pointer"
+            onClick={open}
+          >
+            Add photos
+          </Button>
         </div>
       </div>
+      <UploadPhotoDialog />
       <CreateListingFooter
         nextHref={`/become-a-host/${listing.id}/title`}
         backHref={`/become-a-host/${listing.id}/amenities`}
         prevProgress={45}
         nextProgress={54}
-        // options={{ selectedAmenitiesIds }}
-        // options={{ selectedCategory }}
         handleNext={handleNext}
+        // options={{
+        //   hasNoDiscountErrors: Object.keys(errors).length === 0,
+        // }}
       />
     </div>
   );
