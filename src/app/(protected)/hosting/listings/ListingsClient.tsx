@@ -9,18 +9,19 @@ import useEditListingDialogStore from "@/hooks/use-edit-listing-dialog";
 import EditListingDialog from "@/components/listings/EditListingDialog";
 import DeleteListingDialog from "@/components/listings/DeleteListingDialog";
 import useCreateListingStore from "@/hooks/use-create-listing-store";
+import { ListingWithPhotos } from "@/lib/types";
 
 type Props = {
-  listings: Listing[];
+  listings: ListingWithPhotos[];
 };
 
 const ListingsClient = ({ listings }: Props) => {
   const { open } = useCreateListingDialogStore();
   const { draft } = useCreateListingStore();
   const { open: openEditDialog } = useEditListingDialogStore();
-  const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
+  const [selectedListing, setSelectedListing] =
+    useState<ListingWithPhotos | null>(null);
 
-  console.log("Draft in ListingsClient:", draft);
   return (
     <>
       <EditListingDialog listing={selectedListing!} />

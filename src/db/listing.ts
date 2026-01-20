@@ -5,6 +5,13 @@ export const getUserListings = async (userId: string) => {
     where: {
       userId: userId,
     },
+    include: {
+      photos: {
+        orderBy: {
+          order: "asc",
+        },
+      },
+    },
   });
   return listings;
 };
@@ -36,7 +43,11 @@ export const getListingWithPhotosById = async (listingId: string) => {
       id: listingId,
     },
     include: {
-      photos: true,
+      photos: {
+        orderBy: {
+          order: "asc",
+        },
+      },
     },
   });
   return listing;

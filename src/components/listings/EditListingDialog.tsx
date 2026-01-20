@@ -11,11 +11,12 @@ import { MdDelete } from "react-icons/md";
 import { Listing } from "../../../generated/prisma";
 import { useRouter } from "next/navigation";
 import useDeleteListingDialogStore from "@/hooks/use-delete-listing-dialog";
+import { ListingWithPhotos } from "@/lib/types";
 
 type Props = {};
 
 type EditListingProps = {
-  listing: Listing;
+  listing: ListingWithPhotos;
 };
 
 const EditListingDialog = ({ listing }: EditListingProps) => {
@@ -46,7 +47,7 @@ const EditListingDialog = ({ listing }: EditListingProps) => {
         <DialogTitle></DialogTitle>
         <div className="flex flex-col justify-center gap-3">
           <Image
-            src={listing.photos[0] || "/images/placeholder.avif"}
+            src={listing.photos[0]?.url || "/images/placeholder.avif"}
             alt={listing.title || "Listing Image"}
             width={200}
             height={200}

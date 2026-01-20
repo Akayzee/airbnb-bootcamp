@@ -19,9 +19,10 @@ import {
 } from "../../../cloudinary-config";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { FieldPath, FieldPathValue, useForm } from "react-hook-form";
 import { ImageFormValues } from "@/lib/types";
 import { uploadImages } from "@/actions/listing/upload-images";
+import * as z from "zod";
 
 type Props = {
   listingId: string;
@@ -62,16 +63,15 @@ const UploadPhotoDialog = ({ listingId }: Props) => {
   });
 
   const {
-    register,
-    handleSubmit,
     watch,
     setValue,
-    reset,
-    control,
     formState: { errors },
   } = form;
 
-  const setCustomValue = (id: any, value: any) => {
+  const setCustomValue = <TField extends FieldPath<ImageFormValues>>(
+    id: TField,
+    value: FieldPathValue<ImageFormValues, TField>,
+  ) => {
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,
@@ -131,6 +131,7 @@ const UploadPhotoDialog = ({ listingId }: Props) => {
 
     setFiles([]);
     setRejectedFiles([]);
+    close();
   };
 
   return (
