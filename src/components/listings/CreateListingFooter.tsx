@@ -23,6 +23,8 @@ type Props = {
     description?: string;
     price?: number | null;
     weekendPrice?: number | null;
+    isPhotosEmpty?: boolean;
+    isPhotosMinLength?: boolean;
   };
   handleNext: () => void;
 };
@@ -85,6 +87,10 @@ const CreateListingFooter = ({
         options.hasNoErrors &&
         options.isFormComplete
       );
+    }
+
+    if (options.isPhotosEmpty !== undefined || options.isPhotosMinLength) {
+      return options.isPhotosEmpty || options.isPhotosMinLength;
     }
     //For Discount Page
     if (options.hasNoDiscountErrors !== undefined) {

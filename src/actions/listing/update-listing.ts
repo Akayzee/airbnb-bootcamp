@@ -8,13 +8,21 @@ export const updateListing = async (
   listingId: string
 ) => {
   try {
-    // Extract amenityIds if present
-    const { amenityIds, ...restDraft } = draft;
+    // Extract amenityIds and relation fields if present
+    const { amenityIds, userId, ...restDraft } = draft;
+
+    // Convert null values to undefined for Prisma compatibility
+    const cleanedData = Object.fromEntries(
+      Object.entries(restDraft).map(([key, value]) => [
+        key,
+        value === null ? undefined : value,
+      ])
+    );
 
     const updatedListing = await prisma.listing.update({
       where: { id: listingId },
       data: {
-        ...restDraft,
+        ...cleanedData,
         // Handle amenities relationship if amenityIds is provided
         ...(amenityIds && {
           amenityIds: amenityIds,

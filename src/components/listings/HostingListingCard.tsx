@@ -7,9 +7,10 @@ import { averageRating } from "@/lib/helpers";
 import { MIDDOT } from "@/lib/constants";
 import { FaStar } from "react-icons/fa";
 import { Listing } from "../../../generated/prisma";
+import { ListingWithPhotos } from "@/lib/types";
 
 type HostingListingCardProps = {
-  listing: Listing;
+  listing: ListingWithPhotos;
   onClick?: () => void;
 };
 
@@ -19,7 +20,7 @@ const HostingListingCard = ({ listing, onClick }: HostingListingCardProps) => {
       <div className="flex flex-col gap-3">
         <div className="relative w-full rounded-2xl overflow-hidden">
           <Image
-            src={listing.photos[0] || "/images/placeholder.avif"}
+            src={listing.photos[0]?.url || "/images/placeholder.avif"}
             alt={listing.title || "Listing Image"}
             width={300}
             height={300}

@@ -21,11 +21,12 @@ import { deleteListing } from "@/actions/listing/delete-listing";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
+import { ListingWithPhotos } from "@/lib/types";
 
 type Props = {};
 
 type DeleteListingProps = {
-  listing: Listing;
+  listing: ListingWithPhotos;
 };
 
 const DeleteListingDialog = ({ listing }: DeleteListingProps) => {
@@ -63,7 +64,7 @@ const DeleteListingDialog = ({ listing }: DeleteListingProps) => {
         </DialogDescription>
         <div className="flex flex-col justify-center gap-3">
           <Image
-            src={listing.photos[0] || "/images/placeholder.avif"}
+            src={listing.photos[0]?.url || "/images/placeholder.avif"}
             alt={listing.title || "Listing Image"}
             width={200}
             height={200}
