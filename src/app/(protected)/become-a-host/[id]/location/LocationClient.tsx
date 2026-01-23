@@ -111,11 +111,11 @@ const LocationClient = ({ listing }: Props) => {
         step: "location",
       });
     },
-    [form, updateDraft]
+    [form, updateDraft],
   );
 
   const handleAutofillRetrieve = (
-    response: AddressAutofillRetrieveResponse
+    response: AddressAutofillRetrieveResponse,
   ) => {
     if (response.features && response.features.length > 0) {
       const feature = response.features[0];
@@ -133,21 +133,20 @@ const LocationClient = ({ listing }: Props) => {
   const handleNext = useCallback(async () => {
     const result = await showConfirm();
 
-    console.log("Confirm result:", result);
-    // if (result.type === "nochange") {
-    //   updateListing(draft, listing.id).then((res) => {
-    //     if (res.success) {
-    //       router.push(`/become-a-host/${listing.id}/floor-plan`);
-    //       reset();
-    //     }
-    //   });
-    // }
+    if (result.type === "nochange") {
+      updateListing(draft, listing.id).then((res) => {
+        if (res.success) {
+          router.push(`/become-a-host/${listing.id}/floor-plan`);
+          reset();
+        }
+      });
+    }
     // // submit the address data from the better match chosen by the user
     if (result.type === "change") {
       //   submitFormWithChanges(result.feature);
       updateForm(result.feature);
     }
-  }, [draft, listing.id, router, reset, showConfirm, updateForm]);
+  }, [showConfirm, updateForm]);
 
   const handleTryAgain = () => {
     formRef.current.reset();

@@ -1,13 +1,15 @@
-"use client";
+import { getListingWithRelations } from "@/db/listing";
+import ListingClient from "./ListingClient";
 
-import AuthCard from "@/components/auth/AuthCard";
-import React from "react";
-import toast from "react-hot-toast";
+const ListingPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  const listing = await getListingWithRelations(id);
 
-type Props = {};
+  if (!listing) {
+    return <>Listing Not Found</>;
+  }
 
-const ListingPage = (props: Props) => {
-  return <div className="bg-amber-500">Create User</div>;
+  return <ListingClient listing={listing} />;
 };
 
 export default ListingPage;
