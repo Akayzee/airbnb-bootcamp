@@ -16,6 +16,7 @@ import AllReviewsDialog from "@/components/listings/Reviews/AllReviewsDialog";
 import useShowAllReviewsDialogStore from "@/hooks/use-show-all-reviews-dialog";
 import ReviewsHeader from "@/components/listings/Reviews/ReviewsHeader";
 import { meanBy } from "lodash";
+import ListingLocationMap from "@/components/listings/ListingLocationMap";
 
 type Props = {
   listing: ListingWithRelations;
@@ -43,7 +44,7 @@ const ListingClient = ({ listing }: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex gap-2 h-[50vh]">
+      <div className="flex gap-2 h-[500px]">
         <div className="w-1/2 h-full">
           <Image
             src={listing.photos[0].url}
@@ -189,6 +190,9 @@ const ListingClient = ({ listing }: Props) => {
           </Button>
         </div>
       ) : null}
+
+      <hr className="my-3" />
+      <ListingLocationMap lng={listing.lng} lat={listing.lat} />
       <AllReviewsDialog reviews={listing.reviews} />
     </div>
   );

@@ -106,8 +106,8 @@ const LocationClient = ({ listing }: Props) => {
         city: city,
         state: state,
         country_code: properties.country_code,
-        lat: feature.geometry.coordinates[0],
-        lng: feature.geometry.coordinates[1],
+        lat: feature.geometry.coordinates[1],
+        lng: feature.geometry.coordinates[0],
         step: "location",
       });
     },
