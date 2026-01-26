@@ -72,7 +72,7 @@ const EditListingDialog = ({ listing }: EditListingProps) => {
         <hr />
         <div className="flex flex-col  gap-4">
           <Button
-            className="w-full hover:cursor-pointer"
+            className="w-full hover:cursor-pointer "
             onClick={EditListingButton}
           >
             Edit Listing

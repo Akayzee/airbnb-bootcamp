@@ -32,7 +32,17 @@ export type ListingWithPhotos = Prisma.ListingGetPayload<{
 export type ListingWithRelations = Prisma.ListingGetPayload<{
   include: {
     photos: true;
-    reviews: true;
+    reviews: {
+      include: {
+        user: {
+          select: {
+            image: true;
+            name: true;
+            createdAt: true;
+          };
+        };
+      };
+    };
     amenities: true;
     category: true;
     privacyType: true;
@@ -40,6 +50,17 @@ export type ListingWithRelations = Prisma.ListingGetPayload<{
   };
 }>;
 
+export type ReviewWithUserInfo = Prisma.ReviewGetPayload<{
+  include: {
+    user: {
+      select: {
+        image: true;
+        name: true;
+        createdAt: true;
+      };
+    };
+  };
+}>;
 export type ImageContentProps = {
   url: string;
   publicId: string;
