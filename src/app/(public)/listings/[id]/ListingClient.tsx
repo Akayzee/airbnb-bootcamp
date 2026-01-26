@@ -10,12 +10,23 @@ import StarRatings from "react-star-ratings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TbAugmentedReality } from "react-icons/tb";
 import { CustomIcon } from "@/components/CustomIcon";
+import ReviewCard from "@/components/listings/Reviews/ReviewCard";
+import { Button } from "@/components/ui/button";
+import AllReviewsDialog from "@/components/listings/Reviews/AllReviewsDialog";
+import useShowAllReviewsDialogStore from "@/hooks/use-show-all-reviews-dialog";
+import ReviewsHeader from "@/components/listings/Reviews/ReviewsHeader";
+import { meanBy } from "lodash";
 
 type Props = {
   listing: ListingWithRelations;
 };
 
 const ListingClient = ({ listing }: Props) => {
+  const { open } = useShowAllReviewsDialogStore();
+  const averageRating = meanBy(
+    listing.reviews,
+    (review) => review.averageRating,
+  );
   return (
     <div className="max-w-7xl flex flex-col mx-auto gap-10 ">
       <div className="flex items-center justify-between">
@@ -94,24 +105,21 @@ const ListingClient = ({ listing }: Props) => {
           <Card>
             <CardContent className="flex items-center justify-around gap-1">
               <div className="flex items-center gap-1">
-                <LeftFlower />
+                <LeftFlower height={32} />
                 <div className="flex flex-col justify-center items-center h-[32px]">
                   <p className="text-sm font-bold">Guest</p>
                   <p className="text-sm font-bold">Favorite</p>
                 </div>
-                <RightFlower />
+                <RightFlower height={32} />
               </div>
               <p className="text-sm font-bold">
                 One of the most loved homes on Airbnb,
                 <br /> according to guests
               </p>
               <div className="flex flex-col items-center">
-                {/* Needs to be edited to average rating */}
-                <p className="text-xl font-bold">
-                  {listing.reviews[0]?.rating ?? 0}
-                </p>
+                <p className="text-xl font-bold">{averageRating}</p>
                 <StarRatings
-                  rating={5}
+                  rating={averageRating}
                   starRatedColor="black"
                   starDimension="12px"
                   starSpacing="1px"
@@ -159,10 +167,29 @@ const ListingClient = ({ listing }: Props) => {
               ))}
             </div>
           </div>
-          <hr className="my-3" />
         </div>
         <div className="w-1/4 bg-amber-300">Reservations Component</div>
       </div>
+      <hr className="my-3" />
+      <ReviewsHeader reviews={listing.reviews} />
+      <hr className="my-3" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {listing.reviews.slice(0, 10).map((review) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
+      </div>
+      {listing.reviews.length > 10 ? (
+        <div className="w-full md:w-1/4">
+          <Button
+            variant="outline"
+            className="w-full  pl-6 pr-6 bg-[#FAFAFA] text-black"
+            onClick={open}
+          >
+            Show All {listing.reviews.length} Reviews
+          </Button>
+        </div>
+      ) : null}
+      <AllReviewsDialog reviews={listing.reviews} />
     </div>
   );
 };

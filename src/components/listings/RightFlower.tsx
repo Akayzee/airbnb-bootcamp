@@ -1,14 +1,16 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  height: string | number;
+};
 
-const RightFlower = (props: Props) => {
+const RightFlower = ({ height }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 32"
       fill="none"
-      height="32"
+      height={height}
     >
       <g clipPath="url(#clip0_5880_37786)">
         <path

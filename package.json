@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate --no-engine",
-    "seed": "tsx -r tsconfig-paths/register prisma/seed.ts"
+    "seed": "tsx -r tsconfig-paths/register prisma/seed.ts",
+    "seed:reviews": "tsx -r tsconfig-paths/register prisma/seed-reviews.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.0",
@@ -59,6 +60,7 @@
     "framer-motion": "^12.23.22",
     "holy-loader": "^2.3.13",
     "input-otp": "^1.4.2",
+    "lodash": "^4.17.23",
     "lucide-react": "^0.544.0",
     "mapbox-gl": "^3.16.0",
     "motion": "^12.26.2",
@@ -86,6 +88,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.23",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

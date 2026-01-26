@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { Listing } from "../../generated/prisma";
 import { Review } from "./types";
+import { formatDistanceToNow } from "date-fns";
 
 export const averageRating = (reviews: Review[]) =>
   reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
@@ -16,3 +17,7 @@ export function validatePrice(draft: Partial<Listing>) {
 }
 
 export const priceFormatter = new Intl.NumberFormat("nb-NO");
+
+export const timeAgo = (date: Date) => {
+  return formatDistanceToNow(date, { addSuffix: true });
+};
