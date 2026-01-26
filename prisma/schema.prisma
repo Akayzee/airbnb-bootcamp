@@ -102,7 +102,7 @@ model Listing {
   weekendPremium            Int?
   userId                    String
   user                      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  guestFavorite             Boolean      @default(false)
+  isGuestFavorite           Boolean      @default(false)
   hostType                  String?
   reviews                   Review[]
   images                    Json?

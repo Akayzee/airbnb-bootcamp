@@ -28,7 +28,9 @@ import {
   DragEndEvent,
   DragStartEvent,
   DragOverEvent,
+  DragOverlay,
 } from "@dnd-kit/core";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   useSortable,
@@ -37,20 +39,15 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import toast from "react-hot-toast";
-import axios from "axios";
-import crypto from "crypto";
-import {
-  cloudinaryApiKey,
-  cloudinaryApiSecret,
-  cloudinaryBaseUrl,
-} from "../../../../../../cloudinary-config";
 import { deletePhoto } from "@/actions/listing/delete-photo";
+import EditPhotoDialog from "@/components/listings/EditPhotoDialog";
+import useEditPhotoStore from "@/hooks/use-edit-photo-store";
+import useEditPhotoDialogStore from "@/hooks/use-edit-photo-dialog";
 
 type Props = {
   listing: ListingWithPhotos;
 };
 
-// SortablePhoto component for each draggable photo
 function SortablePhoto({
   photo,
   index,
@@ -59,6 +56,7 @@ function SortablePhoto({
   onMoveForward,
   onMakeCoverPhoto,
   onDelete,
+  onEdit,
   isBeingDragged,
   isDropTarget,
 }: {
@@ -69,6 +67,7 @@ function SortablePhoto({
   onMoveForward: () => void;
   onMakeCoverPhoto: () => void;
   onDelete: () => void;
+  onEdit: () => void;
   isBeingDragged: boolean;
   isDropTarget: boolean;
 }) {
@@ -133,7 +132,7 @@ function SortablePhoto({
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
               <DropdownMenuItem disabled={isFirst} onClick={onMoveBackward}>
                 Move backward
               </DropdownMenuItem>
@@ -157,10 +156,13 @@ const PhotosClient = ({ listing }: Props) => {
   const { updateDraft, draft, reset } = useCreateListingStore();
   const router = useRouter();
   const { open } = useUploadPhotoDialogStore();
+  const { open: openEditDialog } = useEditPhotoDialogStore();
   const [photos, setPhotos] = useState(listing.photos);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
+  const { setPhotoId, setPhotoUrl, setPhotoCaption, setPhotoPublicId } =
+    useEditPhotoStore();
 
   const removeImageFromDatabaseAndCloudinary = (
     publicId: string,
@@ -267,6 +269,19 @@ const PhotosClient = ({ listing }: Props) => {
     });
   };
 
+  const handleEditPhoto = (
+    photoId: string,
+    photoUrl: string,
+    photoCaption: string | null,
+    photoPublicId: string,
+  ) => {
+    setPhotoId(photoId);
+    setPhotoUrl(photoUrl);
+    setPhotoCaption(photoCaption);
+    setPhotoPublicId(photoPublicId);
+    openEditDialog();
+  };
+
   useEffect(() => {
     setPhotos(listing.photos);
     updateDraft({
@@ -335,9 +350,10 @@ const PhotosClient = ({ listing }: Props) => {
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
+            modifiers={[restrictToWindowEdges]}
           >
             <SortableContext items={photos} strategy={rectSortingStrategy}>
-              <div className="flex flex-col gap-3 mb-3 mt-3 overflow-y-auto">
+              <div className="flex flex-col gap-3 mb-3 mt-3 ">
                 {/* Cover Photo - Full Width */}
                 {photos.length > 0 && (
                   <div className="w-full md:min-w-2xl px-2 md:px-6">
@@ -353,6 +369,14 @@ const PhotosClient = ({ listing }: Props) => {
                         removeImageFromDatabaseAndCloudinary(
                           photos[0].publicId,
                           photos[0].id,
+                        )
+                      }
+                      onEdit={() =>
+                        handleEditPhoto(
+                          photos[0].id,
+                          photos[0].url,
+                          photos[0].caption,
+                          photos[0].publicId,
                         )
                       }
                       isBeingDragged={activeId === photos[0].id}
@@ -376,6 +400,14 @@ const PhotosClient = ({ listing }: Props) => {
                           removeImageFromDatabaseAndCloudinary(
                             photo.publicId,
                             photo.id,
+                          )
+                        }
+                        onEdit={() =>
+                          handleEditPhoto(
+                            photo.id,
+                            photo.url,
+                            photo.caption,
+                            photo.publicId,
                           )
                         }
                         isBeingDragged={activeId === photo.id}
@@ -406,6 +438,7 @@ const PhotosClient = ({ listing }: Props) => {
         )}
       </div>
       <UploadPhotoDialog listingId={listing.id} />
+      <EditPhotoDialog listingId={listing.id} />
       <CreateListingFooter
         nextHref={`/become-a-host/${listing.id}/title`}
         backHref={`/become-a-host/${listing.id}/amenities`}

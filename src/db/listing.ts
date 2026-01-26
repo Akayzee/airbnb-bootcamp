@@ -25,6 +25,23 @@ export const getListingById = async (listingId: string) => {
   return listing;
 };
 
+export const getListingWithRelations = async (listingId: string) => {
+  const listing = await prisma.listing.findUnique({
+    where: {
+      id: listingId,
+    },
+    include: {
+      amenities: true,
+      category: true,
+      photos: true,
+      reviews: true,
+      privacyType: true,
+      user: true,
+    },
+  });
+  return listing;
+};
+
 export const getListingWithAmenitiesById = async (listingId: string) => {
   const listing = await prisma.listing.findUnique({
     where: {
