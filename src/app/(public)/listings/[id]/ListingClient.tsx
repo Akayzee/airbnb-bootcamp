@@ -175,7 +175,7 @@ const ListingClient = ({ listing }: Props) => {
       <ReviewsHeader reviews={listing.reviews} />
       <hr className="my-3" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {listing.reviews.slice(0, 10).map((review) => (
+        {listing.reviews.slice(0, 6).map((review) => (
           <ReviewCard key={review.id} review={review} />
         ))}
       </div>
