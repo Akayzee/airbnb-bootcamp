@@ -9,6 +9,10 @@ const ListingPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     return <>Listing Not Found</>;
   }
 
+  if (listing.photos.length === 0) {
+    return <div>Upload a photo to your listing</div>;
+  }
+
   return <ListingClient listing={listing} />;
 };
 

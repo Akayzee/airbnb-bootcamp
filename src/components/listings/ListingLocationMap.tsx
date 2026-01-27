@@ -65,7 +65,12 @@ const ListingLocationMap = ({ lat, lng }: Props) => {
             mapStyle="mapbox://styles/mapbox/streets-v9"
             maxZoom={10}
           >
-            <Marker longitude={lng} latitude={lat} anchor="bottom" />
+            <Marker
+              longitude={lng}
+              latitude={lat}
+              anchor="bottom"
+              color="#FF0000"
+            />
           </Map>
         )}
       </div>
