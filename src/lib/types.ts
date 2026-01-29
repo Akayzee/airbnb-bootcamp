@@ -47,6 +47,7 @@ export type ListingWithRelations = Prisma.ListingGetPayload<{
     category: true;
     privacyType: true;
     user: true;
+    reservations: true;
   };
 }>;
 

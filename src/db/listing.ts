@@ -34,6 +34,7 @@ export const getListingWithRelations = async (listingId: string) => {
       amenities: true,
       category: true,
       photos: true,
+      reservations: true,
       reviews: {
         include: {
           user: {
