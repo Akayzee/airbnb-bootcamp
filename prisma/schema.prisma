@@ -26,6 +26,7 @@ model User {
   Authenticator Authenticator[]
   listings      Listing[]
   reviews       Review[]
+  reservations  Reservation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,7 +88,7 @@ model Authenticator {
 }
 
 model Listing {
-  id                        String       @id @default(cuid())
+  id                        String        @id @default(cuid())
   title                     String?
   description               String?
   location                  String?
@@ -101,39 +102,96 @@ model Listing {
   weekendPrice              Int?
   weekendPremium            Int?
   userId                    String
-  user                      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  isGuestFavorite           Boolean      @default(false)
+  user                      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isGuestFavorite           Boolean       @default(false)
   hostType                  String?
   reviews                   Review[]
   images                    Json?
-  createdAt                 DateTime     @default(now())
-  updatedAt                 DateTime     @updatedAt
-  guestCount                Int          @default(1)
-  bedroomCount              Int          @default(0)
-  bedCount                  Int          @default(1)
-  bathroomCount             Float        @default(0.5)
+  createdAt                 DateTime      @default(now())
+  updatedAt                 DateTime      @updatedAt
+  guestCount                Int           @default(1)
+  bedroomCount              Int           @default(0)
+  bedCount                  Int           @default(1)
+  bathroomCount             Float         @default(0.5)
   amenityIds                String[]
   amenities                 Amenity[]
   categoryId                String?
-  category                  Category?    @relation(fields: [categoryId], references: [id])
+  category                  Category?     @relation(fields: [categoryId], references: [id])
   step                      String?
-  isPublished               Boolean      @default(false)
-  isListed                  Boolean      @default(false)
+  isPublished               Boolean       @default(false)
+  isListed                  Boolean       @default(false)
   privacyTypeId             String?
-  privacyType               PrivacyType? @relation(fields: [privacyTypeId], references: [id])
-  isNewListingDiscount      Boolean      @default(true)
-  newListingDiscount        Int?         @default(20)
-  isLastMinuteDiscount      Boolean      @default(false)
-  isWeeklyDiscount          Boolean      @default(true)
-  isMonthlyDiscount         Boolean      @default(true)
-  lastMinuteDiscount        Int?         @default(0)
-  weeklyDiscount            Int?         @default(12)
-  monthlyDiscount           Int?         @default(25)
-  isNoiseMonitor            Boolean      @default(false)
-  isWeapons                 Boolean      @default(false)
-  isSecurityCamera          Boolean      @default(false)
+  privacyType               PrivacyType?  @relation(fields: [privacyTypeId], references: [id])
+  isNewListingDiscount      Boolean       @default(true)
+  newListingDiscount        Int?          @default(20)
+  isLastMinuteDiscount      Boolean       @default(false)
+  isWeeklyDiscount          Boolean       @default(true)
+  isMonthlyDiscount         Boolean       @default(true)
+  lastMinuteDiscount        Int?          @default(0)
+  weeklyDiscount            Int?          @default(12)
+  monthlyDiscount           Int?          @default(25)
+  isNoiseMonitor            Boolean       @default(false)
+  isWeapons                 Boolean       @default(false)
+  isSecurityCamera          Boolean       @default(false)
   securityCameraDescription String?
   photos                    Photo[]
+  reservations              Reservation[]
+}
+
+model Reservation {
+  id            String   @id @default(cuid())
+  listingId     String
+  guestId       String
+  checkInDate   DateTime
+  checkOutDate  DateTime
+  guestCount    Int      @default(1)
+  totalPrice    Int
+  status        String   @default("pending") // pending, confirmed, cancelled, completed
+  paymentStatus String   @default("pending") // pending, paid, refunded
+  nights        Int
+  pricePerNight Int
+  cleaningFee   Int?     @default(0)
+  serviceFee    Int?     @default(0)
+  taxes         Int?     @default(0)
+
+  // Additional useful fields
+  confirmationCode     String? @unique
+  specialRequests      String? @db.Text
+  guestPhoneNumber     String?
+  estimatedCheckInTime String?
+
+  // Cancellation tracking
+  cancelledAt        DateTime?
+  cancelledBy        String? // 'guest' or 'host'
+  cancellationReason String?   @db.Text
+  refundAmount       Int?
+
+  // Payment tracking
+  paymentIntentId String?
+  paymentMethod   String? // 'card', 'paypal', etc.
+
+  // Host management
+  hostPayout       Int?
+  hostPayoutStatus String?   @default("pending") // pending, processed, failed
+  hostPayoutDate   DateTime?
+
+  // Review eligibility
+  isEligibleForReview Boolean @default(false)
+  guestReviewedHost   Boolean @default(false)
+  hostReviewedGuest   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  guest   User    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@index([guestId])
+  @@index([status])
+  @@index([checkInDate, checkOutDate])
+  @@index([confirmationCode])
+  @@index([paymentStatus])
 }
 
 model Review {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { ListingWithRelations } from "@/lib/types";
 import Image from "next/image";
 import { Heart, ShareIcon } from "lucide-react";
@@ -17,6 +17,9 @@ import useShowAllReviewsDialogStore from "@/hooks/use-show-all-reviews-dialog";
 import ReviewsHeader from "@/components/listings/Reviews/ReviewsHeader";
 import { meanBy } from "lodash";
 import ListingLocationMap from "@/components/listings/ListingLocationMap";
+import CreateReservation from "@/components/listings/CreateReservation";
+import { DateRange } from "react-day-picker";
+import ReservationCalendar from "@/components/listings/ReservationCalendar";
 
 type Props = {
   listing: ListingWithRelations;
@@ -28,6 +31,9 @@ const ListingClient = ({ listing }: Props) => {
     listing.reviews,
     (review) => review.averageRating,
   );
+
+  const [date, setDate] = React.useState<DateRange | undefined>();
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="max-w-7xl flex flex-col mx-auto gap-10 ">
       <div className="flex items-center justify-between">
@@ -70,8 +76,8 @@ const ListingClient = ({ listing }: Props) => {
           ))}
         </div>
       </div>
-      <div className="flex">
-        <div className="w-3/4 p-4 flex flex-col gap-6">
+      <div className="flex gap-16">
+        <div className="w-2/3 p-4 flex flex-col gap-6">
           <div className="flex flex-col gap-1">
             <p className="text-xl font-bold">
               {`${listing.privacyType?.name} in ${listing.city}, ${listing.country}`}
@@ -168,8 +174,22 @@ const ListingClient = ({ listing }: Props) => {
               ))}
             </div>
           </div>
+          <hr />
+          <ReservationCalendar
+            reservations={listing.reservations}
+            location={listing.city}
+          />
         </div>
-        <div className="w-1/4 bg-amber-300">Reservations Component</div>
+        <div className="w-1/4 sticky top-60 self-start">
+          {listing.price && listing.weekendPrice && (
+            <CreateReservation
+              reservations={listing.reservations}
+              listingId={listing.id}
+              price={listing.price}
+              weekendPrice={listing.weekendPrice}
+            />
+          )}
+        </div>
       </div>
       <hr className="my-3" />
       <ReviewsHeader reviews={listing.reviews} />
