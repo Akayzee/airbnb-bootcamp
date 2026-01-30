@@ -44,6 +44,11 @@ export const getListingWithRelations = async (listingId: string) => {
               name: true,
             },
           },
+          helpfulness: {
+            select: {
+              isHelpful: true,
+            },
+          },
         },
       },
       privacyType: true,

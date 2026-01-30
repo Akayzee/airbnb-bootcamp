@@ -22,6 +22,9 @@ import { createReservation } from "@/actions/listing/create-reservation";
 import toast from "react-hot-toast";
 import { Reservation } from "../../../generated/prisma";
 import useReservationCalendarStore from "@/hooks/use-reservation-calendar-store";
+import useGuestFilterPopoverReservationStore from "@/hooks/use-guest-filter-popover-reservation";
+import GuestFilterReservation from "../desktop/GuestFilterReservation";
+import useGuestFilterStore from "@/hooks/use-guest-filter-store";
 
 type Props = {
   listingId: string;
@@ -38,6 +41,7 @@ const CreateReservation = ({
 }: Props) => {
   const { date, setDate } = useReservationCalendarStore();
   const [isOpen, setIsOpen] = useState(false);
+
   const { data } = useSession();
 
   const numberOfNights = (checkOutDate: Date, checkInDate: Date) => {
@@ -115,6 +119,34 @@ const CreateReservation = ({
     });
   };
 
+  const {
+    adultsCount,
+    childrenCount,
+    infantsCount,
+    petsCount,
+    increaseAdultsCount,
+    increaseChildrenCount,
+    increaseInfantsCount,
+    increasePetsCount,
+    decreaseAdultsCount,
+    decreaseChildrenCount,
+    decreaseInfantsCount,
+    decreasePetsCount,
+  } = useGuestFilterStore();
+
+  const {
+    open,
+    isOpen: isGuestFilterOpen,
+    toggle,
+    close,
+  } = useGuestFilterPopoverReservationStore();
+
+  const isGuestEmpty =
+    adultsCount === 0 &&
+    childrenCount === 0 &&
+    infantsCount === 0 &&
+    petsCount === 0;
+
   return (
     <Card className="shadow-lg rounded-lg">
       <CardContent className="flex flex-col gap-6">
@@ -171,12 +203,47 @@ const CreateReservation = ({
               </div>
             </PopoverContent>
           </Popover>
-          <div className="border-t-0 border rounded-b-md border-gray-400 p-2">
-            <div className="flex flex-col">
-              <p className="text-xs font-bold">Guests</p>
-              <p className="text-xs">Add guests</p>
-            </div>
-          </div>
+          <Popover open={isGuestFilterOpen} onOpenChange={close}>
+            <PopoverAnchor asChild>
+              <div
+                onClick={toggle}
+                className="border-t-0 border rounded-b-md border-gray-400 p-2"
+              >
+                <div className="flex flex-col">
+                  <p className="text-xs font-bold">Guests</p>
+                  <p className="text-xs">
+                    <Button
+                      variant="outline"
+                      className="text-xs border-none shadow-none p-0 h-7 text-gray-500  hover:bg-transparent bg-transparent hover:cursor-pointer hover:text-gray-500  w-[120px] justify-start"
+                    >
+                      {isGuestEmpty
+                        ? "Add guests"
+                        : [
+                            adultsCount > 0
+                              ? `${adultsCount + childrenCount} ${
+                                  adultsCount + childrenCount === 1
+                                    ? "guest"
+                                    : "guests"
+                                }`
+                              : "",
+                            infantsCount > 0
+                              ? `${infantsCount} ${
+                                  infantsCount === 1 ? "infant" : "infants"
+                                }`
+                              : "",
+                            petsCount > 0
+                              ? `${petsCount} ${petsCount === 1 ? "pet" : "pets"}`
+                              : "",
+                          ]
+                            .filter(Boolean)
+                            .join(", ")}
+                    </Button>
+                  </p>
+                </div>
+              </div>
+            </PopoverAnchor>
+            <GuestFilterReservation />
+          </Popover>
         </div>
         <Button
           disabled={date?.from === undefined || date?.to === undefined}

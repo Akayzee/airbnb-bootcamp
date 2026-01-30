@@ -7,7 +7,7 @@ type Props = {};
 
 const HomePage = (props: Props) => {
   return (
-    <div>
+    <div className="max-w-7xl xl:max-w-5xl mx-auto">
       {HomePageListingsGroupInfo.map((group) => (
         <ListingsGroup
           key={group.location}

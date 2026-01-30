@@ -41,6 +41,11 @@ export type ListingWithRelations = Prisma.ListingGetPayload<{
             createdAt: true;
           };
         };
+        helpfulness: {
+          select: {
+            isHelpful: true;
+          };
+        };
       };
     };
     amenities: true;
@@ -58,6 +63,11 @@ export type ReviewWithUserInfo = Prisma.ReviewGetPayload<{
         image: true;
         name: true;
         createdAt: true;
+      };
+    };
+    helpfulness: {
+      select: {
+        isHelpful: true;
       };
     };
   };

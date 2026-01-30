@@ -6,7 +6,7 @@ import { Heart, ShareIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import LeftFlower from "@/components/listings/LeftFlower";
 import RightFlower from "@/components/listings/RightFlower";
-import StarRatings from "react-star-ratings";
+import dynamic from "next/dynamic";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TbAugmentedReality } from "react-icons/tb";
 import { CustomIcon } from "@/components/CustomIcon";
@@ -20,6 +20,10 @@ import ListingLocationMap from "@/components/listings/ListingLocationMap";
 import CreateReservation from "@/components/listings/CreateReservation";
 import { DateRange } from "react-day-picker";
 import ReservationCalendar from "@/components/listings/ReservationCalendar";
+
+const StarRatings = dynamic(() => import("react-star-ratings"), {
+  ssr: false,
+});
 
 type Props = {
   listing: ListingWithRelations;
@@ -50,7 +54,7 @@ const ListingClient = ({ listing }: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex gap-2 h-[500px]">
+      <div className="flex gap-2 h-[500px] md:h-[300px] lg:h-[500px]">
         <div className="w-1/2 h-full">
           <Image
             src={listing.photos[0].url}

@@ -1,9 +1,16 @@
+"use client";
 import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
 import { Button } from "../ui/button";
 import useGuestFilterStore from "@/hooks/use-guest-filter-store";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import useGuestFilterPopoverStore from "@/hooks/use-guest-filter-popover";
 
 type Props = {};
 
@@ -23,6 +30,8 @@ const GuestFilter = (props: Props) => {
     decreasePetsCount,
   } = useGuestFilterStore();
 
+  const { open, isOpen, toggle, close } = useGuestFilterPopoverStore();
+
   const isGuestEmpty =
     adultsCount === 0 &&
     childrenCount === 0 &&
@@ -30,9 +39,10 @@ const GuestFilter = (props: Props) => {
     petsCount === 0;
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <Popover open={isOpen} onOpenChange={close}>
+      <PopoverAnchor asChild>
         <Button
+          onClick={toggle}
           variant="outline"
           className="text-xs border-none shadow-none p-0 h-7 text-gray-500  hover:bg-transparent bg-transparent hover:cursor-pointer hover:text-gray-500  w-[120px] justify-start"
         >
@@ -56,7 +66,7 @@ const GuestFilter = (props: Props) => {
                 .filter(Boolean)
                 .join(", ")}
         </Button>
-      </PopoverTrigger>
+      </PopoverAnchor>
       <PopoverContent className="ml-20 mt-3">
         <div className="flex flex-col">
           <div className="flex justify-between items-center p-2 gap-2 rounded-lg hover:cursor-pointer">
